@@ -7,6 +7,7 @@ const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 const getCards = createAsyncThunk(
   "photos/getCards",
   async ({ isLoading, setLoading }) => {
+    setLoading(true)
     try {
       const response = await axios.get(`${PRODUCTION_SERVER}/cards`);
       return response.data;

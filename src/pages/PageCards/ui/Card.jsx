@@ -46,7 +46,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
   };
 
   return (
-    <Card maxW="350px" borderRadius={10} maxH="500px">
+    <Card maxW="350px" borderRadius={10} maxH="550px">
       <CardHeader display="flex" justifyContent="flex-end" pb={5}>
         <ButtonGroup spacing={1}>
           <Button
@@ -72,7 +72,10 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
 
       <CardBody padding="0 20px 0">
         <Heading size="md" mb={2}>
-          {data.title}
+         Title: {data.title}
+        </Heading>
+        <Heading size="md" mb={2}>
+        Author: {data.author}
         </Heading>
         <Image
           src={data.url}
