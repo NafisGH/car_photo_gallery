@@ -6,15 +6,32 @@ const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 
 const getCards = createAsyncThunk(
   "photos/getCards",
-  async ({ isLoading, setLoading }) => {
-    setLoading(true)
+  async ({ setLoading, page, pageSize }) => {
+    setLoading(true);
     try {
-      const response = await axios.get(`${PRODUCTION_SERVER}/cards`);
+      const response = await axios.get(
+        `${PRODUCTION_SERVER}/cards?page=${page}&pageSize=${pageSize}`
+      );
       return response.data;
     } catch (error) {
       return "error getCards";
     } finally {
       setLoading(false);
+    }
+  }
+);
+
+const likeCard = createAsyncThunk(
+  "photos/likeCard",
+  async({ id, ownerId, email }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(`${PRODUCTION_SERVER}/cards/${id}`, {
+        ownerId,
+        email
+      });
+      return email;
+    } catch (error) {
+      return rejectWithValue();
     }
   }
 );
@@ -69,6 +86,9 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   isError: false,
+  pageCount: 1,
+  page: 1,
+  likes: 0,
 };
 
 export const photoSlice = createSlice({
@@ -76,6 +96,26 @@ export const photoSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+
+    // likeCard ------------------------------
+    [likeCard.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [likeCard.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.data = state.data.filter((card) => {
+      if (card.email !== action.payload) {
+        state.data.likes.push(action.payload)
+      } 
+      });
+
+    },
+    [likeCard.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+
     // createCard ------------------------------
     [createCard.pending]: (state, action) => {
       state.isLoading = true;
@@ -97,7 +137,9 @@ export const photoSlice = createSlice({
     [getCards.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.data = action.payload;
+      state.data = action.payload.data;
+      state.pageCount = action.payload.pageCount;
+      state.page = action.payload.page;
     },
     [getCards.rejected]: (state, action) => {
       state.isLoading = false;
@@ -141,6 +183,9 @@ export const photoSlice = createSlice({
 
 export const {} = photoSlice.actions;
 
-export { getCards, deleteCard, updateCard, createCard };
+export { getCards, deleteCard, updateCard, createCard, likeCard };
+
+export const selectPageCount = (state) => state.photos.pageCount;
+export const selectPage = (state) => state.photos.page;
 
 export default photoSlice.reducer;

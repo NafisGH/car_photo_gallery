@@ -39,7 +39,7 @@ const CreateCardModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-      dispach(createCard({ownerId: 1, title, url}))
+      dispach(createCard({ownerId: 2, title, url}))
   }
 
 

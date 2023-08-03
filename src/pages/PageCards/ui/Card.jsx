@@ -20,7 +20,7 @@ import { BiCommentDetail } from "react-icons/bi";
 
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
-import { deleteCard } from "app/redux/slices/photoReducer";
+import { deleteCard, likeCard } from "app/redux/slices/photoReducer";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
   const handleGetCorrectDate = (data) => {
@@ -31,7 +31,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
     return `${day}/${month}/${year}`;
   };
 
-  const dispach = useDispatch(); // для передачи данных с компонента в хранилище, изменяет состояние
+  const dispach = useDispatch(); 
 
   const handlOpenPopapEditeCard = () => {
     onOpenEditPopap({
@@ -44,6 +44,10 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
   const handelDeleteCard = () => {
     dispach(deleteCard({ id: data.id, ownerId: "1" }));
   };
+
+  const handleLikeCard = () => {
+    dispach(likeCard({ id: data.id, ownerId: "2", email: "test02@m.ru" }))
+  }
 
   return (
     <Card maxW="350px" borderRadius={10} maxH="550px">
@@ -116,7 +120,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
           </ButtonGroup>
           <Text>{handleGetCorrectDate(data)}</Text>
         </Box>
-        <Text>{data.likes} likes</Text>
+        <Text onClick={handleLikeCard}>{data.likes} likes</Text>
       </CardFooter>
     </Card>
   );

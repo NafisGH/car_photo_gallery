@@ -11,6 +11,8 @@ import Pagination from "components/Pagination/Pagination";
 const PageCards = () => {
   const cardsFromServer = useSelector((state) => state.photos.data);
 
+  const [page, setPage] = useState(1)
+
   // const state = useSelector((state) => state)
 
   const dispatch = useDispatch();
@@ -40,8 +42,8 @@ const PageCards = () => {
   };
 
   useEffect(() => {
-    dispatch(getCards({ isLoading, setLoading }));
-  }, [dispatch]);
+    dispatch(getCards({ setLoading, page, pageSize: 5 }));
+  }, [dispatch, page]);
 
   return (
     <Box>
@@ -101,7 +103,10 @@ const PageCards = () => {
       }
       
       <Center>
-      <Pagination/>
+      <Pagination
+        page={page}
+        setPage={setPage}
+      />
       </Center>
       
     </Box>
