@@ -79,7 +79,7 @@ const PageCards = () => {
         .filter((data) => {
           return data.title.toLowerCase().includes(searchValue.toLowerCase())
         })
-        .map((data) => {
+        .map((data, index) => {
           return (
             <MyCard
               key={data.id}

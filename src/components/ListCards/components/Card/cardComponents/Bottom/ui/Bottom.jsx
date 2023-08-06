@@ -7,6 +7,8 @@ import { Icon } from "components/Icon";
 import StyledBottom from "./StyledBottom";
 
 export const Bottom = () => {
+
+
   return (
     <StyledBottom>
       <div className="bottom">

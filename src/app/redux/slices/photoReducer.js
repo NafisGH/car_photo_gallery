@@ -23,13 +23,29 @@ const getCards = createAsyncThunk(
 
 const likeCard = createAsyncThunk(
   "photos/likeCard",
-  async({ id, ownerId, email }, { rejectWithValue }) => {
+  async({ id, email }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`${PRODUCTION_SERVER}/cards/${id}`, {
-        ownerId,
-        email
+      const response = await axios.patch(`${PRODUCTION_SERVER}/cards/${id}/likes`, {
+        emailUser: email
       });
-      return email;
+      return response;
+    } catch (error) {
+      return rejectWithValue();
+    }
+  }
+);
+
+const dislikeCard = createAsyncThunk(
+  "photos/dislikeCard",
+  async({ id, email }, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`${PRODUCTION_SERVER}/cards/${id}/likes`, {
+        data: {
+          emailUser: email
+        }
+        
+      });
+      return response;
     } catch (error) {
       return rejectWithValue();
     }
@@ -104,17 +120,50 @@ export const photoSlice = createSlice({
     [likeCard.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.data = state.data.filter((card) => {
-      if (card.email !== action.payload) {
-        state.data.likes.push(action.payload)
-      } 
-      });
+      const res = action.payload.data
+
+      const indexLikedCard = state.data.findIndex((id) => id === res[0].id);
+      if (indexLikedCard !== -1) {
+        state.data = [
+          ...state.data.slice(0, indexLikedCard),
+          res[0],
+          ...state.data.slice(indexLikedCard, + 1),
+        ]
+      }
+      // state.data = state.data.filter((card) => {
+      // if (card.email !== action.payload) {
+      //   state.data.likes.push(action.payload)
+      // } 
+      // });
 
     },
     [likeCard.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
     },
+
+    // dislikeCard ------------------------------
+    // [dislikeCard.pending]: (state, action) => {
+    //   state.isLoading = true;
+    // },
+    [dislikeCard.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      const res = action.payload.data
+      const indexDislikeCard = state.data.findIndex((id) => id === res[0].id);
+      if (indexDislikeCard !== -1) {
+        state.data = [
+          ...state.data.slice(0, indexDislikeCard),
+          res[0],
+          ...state.data.slice(indexDislikeCard, +1),
+        ]
+      }
+
+    },
+    // [dislikeCard.rejected]: (state, action) => {
+    //   state.isLoading = false;
+    //   state.isError = true;
+    // },
 
     // createCard ------------------------------
     [createCard.pending]: (state, action) => {
@@ -183,7 +232,7 @@ export const photoSlice = createSlice({
 
 export const {} = photoSlice.actions;
 
-export { getCards, deleteCard, updateCard, createCard, likeCard };
+export { getCards, deleteCard, updateCard, createCard, likeCard, dislikeCard };
 
 export const selectPageCount = (state) => state.photos.pageCount;
 export const selectPage = (state) => state.photos.page;

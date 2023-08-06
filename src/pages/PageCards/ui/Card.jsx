@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -13,14 +13,14 @@ import {
   Icon,
 } from "@chakra-ui/react";
 
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 // AiFillHeart
 
 import { BiCommentDetail } from "react-icons/bi";
 
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
-import { deleteCard, likeCard } from "app/redux/slices/photoReducer";
+import { deleteCard, dislikeCard, likeCard } from "app/redux/slices/photoReducer";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
   const handleGetCorrectDate = (data) => {
@@ -31,7 +31,11 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
     return `${day}/${month}/${year}`;
   };
 
-  const dispach = useDispatch(); 
+
+
+  const myEmail = "test02@m.ru";
+
+  const dispach = useDispatch();
 
   const handlOpenPopapEditeCard = () => {
     onOpenEditPopap({
@@ -46,8 +50,16 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
   };
 
   const handleLikeCard = () => {
-    dispach(likeCard({ id: data.id, ownerId: "2", email: "test02@m.ru" }))
-  }
+    if (data.likes && data.likes.includes(myEmail)) {
+      // dislike
+      console.log("dislike");
+      dispach(dislikeCard({id: data.id, email: myEmail}))
+    } else {
+      // like
+      console.log("like");
+      dispach(likeCard({ id: data.id, email: myEmail }));
+    }
+  };
 
   return (
     <Card maxW="350px" borderRadius={10} maxH="550px">
@@ -76,10 +88,10 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
 
       <CardBody padding="0 20px 0">
         <Heading size="md" mb={2}>
-         Title: {data.title}
+          Title: {data.title}
         </Heading>
         <Heading size="md" mb={2}>
-        Author: {data.author}
+          Author: {data.author}
         </Heading>
         <Image
           src={data.url}
@@ -106,21 +118,27 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
               p={0}
               borderWidth={2}
               borderColor="gray.300"
+              onClick={handleLikeCard}
             >
-              <Icon as={AiOutlineHeart} w={5} h={5} />
+              {data.likes && data.likes.includes(myEmail) ? (
+                <Icon as={AiFillHeart} fill="red" w={5} h={5} />
+              ) : (
+                <Icon as={AiOutlineHeart} w={5} h={5} />
+              )}
             </Button>
             <Button
               variant="ghost"
               p={0}
               borderWidth={2}
               borderColor="gray.300"
+              
             >
               <Icon as={BiCommentDetail} w={5} h={5} />
             </Button>
           </ButtonGroup>
           <Text>{handleGetCorrectDate(data)}</Text>
         </Box>
-        <Text onClick={handleLikeCard}>{data.likes} likes</Text>
+        <Text>{data.likes ? data.likes.length : 0} likes</Text>
       </CardFooter>
     </Card>
   );
