@@ -35,12 +35,26 @@ const CreateCardModal = () => {
     setUrl(e.target.value)
   }
 
+  const clearInputs = () => {
+    setTitle("")
+    setUrl("")
+}
+
   const  dispach = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault()
       dispach(createCard({ownerId: 2, title, url}))
+      onClose()
+      clearInputs()
   }
+
+  const handelCancelCreatemodal = () => {
+    onClose()
+    clearInputs()
+  }
+
+  
 
 
   return (
@@ -57,7 +71,7 @@ const CreateCardModal = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create your new card</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={() => clearInputs()}/>
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>TITLE</FormLabel>
@@ -74,44 +88,11 @@ const CreateCardModal = () => {
               <Input placeholder="url pictures" value={url} onChange={handleChangeUrl}/>
             </FormControl>
 
-            {/* <Box class="field-input upload-file">
-              <Box
-                class="drop-area"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                position="relative"
-              >
-                <Image
-                  //   boxSize="150px"
-                  width="300px"
-                  height="200px"
-                  objectFit="cover"
-                  border="dashed"
-                  borderRadius="15px"
-                  mt="15px"
-                />
-                <Icon
-                  as={BiDownload}
-                  w={10}
-                  h={10}
-                  position="absolute"
-                  m="50% 50% 50% 50%"
-                />
-                <Input type="file" accept="image/*" display="none" />
-                <Button  mt="15px" w="150px">
-                  Upload
-                </Button>
-              </Box>
-            </Box> */}
           </ModalBody>
 
           <ModalFooter display="flex" justifyContent="space-around">
-            <Button  w="150px" onClick={handleSubmit}>
-              Create
-            </Button>
-            <Button onClick={onClose} w="150px">Cancel</Button>
+            <Button onClick={handelCancelCreatemodal} w="150px">Cancel</Button>
+            <Button onClick={handleSubmit} w="150px">Create</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

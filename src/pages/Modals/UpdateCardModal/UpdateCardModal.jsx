@@ -20,6 +20,7 @@ const UpdateCardModal = ({
   isOpen,
   title,
   url,
+  id,
   handleChangeUrl,
   handleChangeTitle,
 }) => {
@@ -70,11 +71,11 @@ const UpdateCardModal = ({
           </ModalBody>
 
           <ModalFooter display="flex" justifyContent="space-around">
-            <Button w="150px" onClick={handleSubmit}>
-              Update
-            </Button>
             <Button onClick={onCloseEditPopap} w="150px">
               Cancel
+            </Button>
+            <Button w="150px" onClick={handleSubmit}>
+              Update
             </Button>
           </ModalFooter>
         </ModalContent>

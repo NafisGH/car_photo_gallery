@@ -130,11 +130,6 @@ export const photoSlice = createSlice({
           ...state.data.slice(indexLikedCard, + 1),
         ]
       }
-      // state.data = state.data.filter((card) => {
-      // if (card.email !== action.payload) {
-      //   state.data.likes.push(action.payload)
-      // } 
-      // });
 
     },
     [likeCard.rejected]: (state, action) => {
@@ -143,9 +138,9 @@ export const photoSlice = createSlice({
     },
 
     // dislikeCard ------------------------------
-    // [dislikeCard.pending]: (state, action) => {
-    //   state.isLoading = true;
-    // },
+    [dislikeCard.pending]: (state, action) => {
+      state.isLoading = true;
+    },
     [dislikeCard.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
@@ -160,10 +155,10 @@ export const photoSlice = createSlice({
       }
 
     },
-    // [dislikeCard.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.isError = true;
-    // },
+    [dislikeCard.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
 
     // createCard ------------------------------
     [createCard.pending]: (state, action) => {

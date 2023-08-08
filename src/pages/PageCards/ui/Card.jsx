@@ -42,11 +42,12 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
       title: data.title,
       url: data.url,
       ownerId: data.ownerId,
+      id: data.id,
     });
   };
 
   const handelDeleteCard = () => {
-    dispach(deleteCard({ id: data.id, ownerId: "1" }));
+    dispach(deleteCard({ id: data.id, ownerId: data.ownerId }));
   };
 
   const handleLikeCard = () => {

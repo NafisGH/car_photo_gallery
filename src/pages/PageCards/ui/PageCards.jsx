@@ -94,6 +94,7 @@ const PageCards = () => {
           onCloseEditPopap={hanleCloseEditPopap}
           title={title}
           url={url}
+
           handleChangeTitle={handleChangeTitle}
           handleChangeUrl={handleChangeUrl}
         />
