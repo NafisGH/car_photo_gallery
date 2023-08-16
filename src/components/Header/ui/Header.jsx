@@ -23,7 +23,7 @@ const Header = () => {
 
         <Box>
           <Button colorScheme="blue">
-            <NavLink to="/PageSignIn">Sign In</NavLink>
+            <NavLink to="/sign-in">Sign In</NavLink>
           </Button>
           <Button
             colorScheme="teal"
@@ -32,7 +32,7 @@ const Header = () => {
             color="white"
             _hover={{ color: "blue" }}
           >
-            <NavLink to="/PageSignUp">Sign Up</NavLink>
+            <NavLink to="/sign-up">Sign Up</NavLink>
           </Button>
         </Box>
 

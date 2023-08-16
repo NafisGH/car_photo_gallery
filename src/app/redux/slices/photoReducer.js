@@ -10,7 +10,11 @@ const getCards = createAsyncThunk(
     setLoading(true);
     try {
       const response = await axios.get(
-        `${PRODUCTION_SERVER}/cards?page=${page}&pageSize=${pageSize}`
+        `${PRODUCTION_SERVER}/cards?page=${page}&pageSize=${pageSize}`, {
+          headers: {
+            "authorization": localStorage.getItem("token")
+          }
+        }
       );
       return response.data;
     } catch (error) {
