@@ -9,7 +9,7 @@ import ProtectedRoute from "./router/ProtectedRoute";
 
 const AppRouter = () => {
   return (
-    <div>
+  
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainLayout />}>
@@ -20,7 +20,7 @@ const AppRouter = () => {
         <Route path="sign-in" element={<PageSignIn />} />
         <Route path="sign-up" element={<PageSignUp />} />
       </Routes>
-    </div>
+    
   );
 };
 

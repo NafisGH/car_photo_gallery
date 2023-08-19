@@ -25,10 +25,17 @@ import { deleteCard, dislikeCard, likeCard } from "app/redux/slices/photoReducer
 export const MyCard = ({ data, onOpenEditPopap }) => {
   const handleGetCorrectDate = (data) => {
     let date = new Date(data.date);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+
+    let day = date.getDate();
+    if (day < 10) day = '0' + day;
+
+    let month = date.getMonth() + 1;
+    if (month < 10) month = '0' + month;
+
+    let year = date.getFullYear();
+    if (year < 10) year = '0' + year;
+
+    return `${day}.${month}.${year}`;
   };
 
 

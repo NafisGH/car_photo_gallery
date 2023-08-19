@@ -47,6 +47,7 @@ const CreateCardModal = () => {
       dispach(createCard({ownerId: 2, title, url}))
       onClose()
       clearInputs()
+      console.log("handleSubmit")
   }
 
   const handelCancelCreatemodal = () => {

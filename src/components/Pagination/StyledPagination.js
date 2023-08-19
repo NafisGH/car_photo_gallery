@@ -2,12 +2,12 @@ import styled from "styled-components";
 const StyledPagination = styled.ul`
   list-style: none;
   padding: 5px 0px;
-  margin: 0;
-  /* margin-top: 10px; */
   background-color: gray;
   width: 100%;
   display: flex;
   justify-content: center;
+  position: absolute;
+  margin-bottom: 3%;
 
   .btn-pagination {
     border: 1px solid black;

@@ -11,19 +11,18 @@ import Pagination from "components/Pagination/Pagination";
 const PageCards = () => {
   const cardsFromServer = useSelector((state) => state.photos.data);
 
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
 
-  // const state = useSelector((state) => state)
+
 
   const dispatch = useDispatch();
 
   const [openEditPopap, setOpenEditPopap] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [isLoading, setLoading] = useState(true);
-  
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -48,12 +47,20 @@ const PageCards = () => {
   return (
     <Box>
       <Box>
-        <Input value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="search card" size="md" />
+        <Input
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          placeholder="search card"
+          size="md"
+          position={"absolute"}
+          mt={"80px"}
+          bgColor={"white"}
+          maxWidth={"95%"}
+        />
       </Box>
 
-      {
-        isLoading ? (
-          <Center>
+      {isLoading ? (
+        <Center>
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -63,53 +70,49 @@ const PageCards = () => {
             mt="20%"
           />
         </Center>
-        ) : (
-          <Box
-        display="grid"
-        p={10}
-        gridTemplateColumns={"repeat(auto-fit, minmax(250px, 1fr))"}
-        gap={10}
-        height="100%"
-        bgColor="silver"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        bgSize="cover"
-      >
-        {cardsFromServer
-        .filter((data) => {
-          return data.title.toLowerCase().includes(searchValue.toLowerCase())
-        })
-        .map((data, index) => {
-          return (
-            <MyCard
-              key={data.id}
-              data={data}
-              onOpenEditPopap={hanleOpenEditPopap}
-            />
-          );
-        })}
+      ) : (
+        <Box
+          display="grid"
+          p={10}
+          gridTemplateColumns={"repeat(auto-fit, minmax(250px, 1fr))"}
+          gap={10}
+          bgColor="silver"
+          bgPosition="center"
+          bgRepeat="no-repeat"
+          bgSize="cover"
+          minHeight={"100vh"}
+          pt={"150px"}
+        >
+          {cardsFromServer
+            .filter((data) => {
+              return data.title
+                .toLowerCase()
+                .includes(searchValue.toLowerCase());
+            })
+            .map((data, index) => {
+              return (
+                <MyCard
+                  key={data.id}
+                  data={data}
+                  onOpenEditPopap={hanleOpenEditPopap}
+                />
+              );
+            })}
 
-        <UpdateCardModal
-          isOpen={openEditPopap}
-          onCloseEditPopap={hanleCloseEditPopap}
-          title={title}
-          url={url}
+          <UpdateCardModal
+            isOpen={openEditPopap}
+            onCloseEditPopap={hanleCloseEditPopap}
+            title={title}
+            url={url}
+            handleChangeTitle={handleChangeTitle}
+            handleChangeUrl={handleChangeUrl}
+          />
+        </Box>
+      )}
 
-          handleChangeTitle={handleChangeTitle}
-          handleChangeUrl={handleChangeUrl}
-        />
-        
-      </Box>
-        )
-      }
-      
       <Center>
-      <Pagination
-        page={page}
-        setPage={setPage}
-      />
+        <Pagination page={page} setPage={setPage} />
       </Center>
-      
     </Box>
   );
 };

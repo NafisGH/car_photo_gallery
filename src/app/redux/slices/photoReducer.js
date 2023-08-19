@@ -18,7 +18,7 @@ const getCards = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return "error getCards";
+      return error;
     } finally {
       setLoading(false);
     }
@@ -30,7 +30,10 @@ const likeCard = createAsyncThunk(
   async({ id, email }, { rejectWithValue }) => {
     try {
       const response = await axios.patch(`${PRODUCTION_SERVER}/cards/${id}/likes`, {
-        emailUser: email
+        emailUser: email,
+        headers: {
+          "authorization": localStorage.getItem("token")
+        }
       });
       return response;
     } catch (error) {
@@ -46,6 +49,9 @@ const dislikeCard = createAsyncThunk(
       const response = await axios.delete(`${PRODUCTION_SERVER}/cards/${id}/likes`, {
         data: {
           emailUser: email
+        },
+        headers: {
+          "authorization": localStorage.getItem("token")
         }
         
       });
@@ -62,6 +68,9 @@ const deleteCard = createAsyncThunk(
     try {
       const response = await axios.delete(`${PRODUCTION_SERVER}/cards/${id}`, {
         ownerId,
+        headers: {
+          "authorization": localStorage.getItem("token")
+        }
       });
       return id;
     } catch (error) {
@@ -77,6 +86,9 @@ const updateCard = createAsyncThunk(
       const response = await axios.patch(`${PRODUCTION_SERVER}/cards/${id}`, {
         title,
         url,
+        headers: {
+          "authorization": localStorage.getItem("token")
+        }
       });
       return response.data;
     } catch (error) {
@@ -92,9 +104,13 @@ const createCard = createAsyncThunk(
         title,
         ownerId,
         url,
+        headers: {
+          "authorization": localStorage.getItem("token")
+        }
       });
-
+      console.log("createCard")
       return response.data;
+      
     } catch (error) {
       return rejectWithValue();
     }

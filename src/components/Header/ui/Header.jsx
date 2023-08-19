@@ -5,44 +5,29 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <Box>
-      <Box
-        w="100%"
-        bg="rgb(40, 40, 40)"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Text ml="10px" color="white" fontSize="30px">
-          Project App
-        </Text>
+    <Box
+      w="100%"
+      bg="rgb(40, 40, 40)"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      pl={"30px"}
+      pr={"30px"}
+      position={"absolute"}
+    >
+      <Text ml="10px" color="white" fontSize="30px">
+        Project App
+      </Text>
 
-        <Modals />
+      <Modals />
 
-        <NavBar />
+      <NavBar />
 
-        <Box>
-          <Button colorScheme="blue">
-            <NavLink to="/sign-in">Sign In</NavLink>
-          </Button>
-          <Button
-            colorScheme="teal"
-            variant="outline"
-            ml="10px"
-            color="white"
-            _hover={{ color: "blue" }}
-          >
-            <NavLink to="/sign-up">Sign Up</NavLink>
-          </Button>
-        </Box>
-
-        <Avatar
-          src="https://bit.ly/broken-link"
-          m={3}
-          _hover={{ cursor: "pointer" }}
-        />
-      </Box>
-      <Divider />
+      <Avatar
+        src="https://bit.ly/broken-link"
+        m={3}
+        _hover={{ cursor: "pointer" }}
+      />
     </Box>
   );
 };

@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { signIn } from "app/redux/slices/userReducer";
 
 const PageSignIn = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,8 +22,8 @@ const PageSignIn = () => {
   const handelSubmit = (e) => {
     e.preventDefault();
     dispatch(signIn({ password, email }));
-    navigate('/');
-  }
+    navigate("/");
+  };
 
   return (
     <Center>
@@ -48,7 +47,13 @@ const PageSignIn = () => {
             value={password}
             onChange={handelChangePassword}
           />
-          <Button colorScheme="blue" size="lg" w="400px" mt="20px" onClick={handelSubmit}>
+          <Button
+            colorScheme="blue"
+            size="lg"
+            w="400px"
+            mt="20px"
+            onClick={handelSubmit}
+          >
             Sign in
           </Button>
 

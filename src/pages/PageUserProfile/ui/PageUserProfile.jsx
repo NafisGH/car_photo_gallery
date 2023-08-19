@@ -27,6 +27,10 @@ const PageUserProfile = () => {
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder="search card"
           size="md"
+          position={"absolute"}
+          mt={"80px"}
+          bgColor={"white"}
+          maxWidth={"95%"}
         />
       </Box>
 
@@ -52,6 +56,8 @@ const PageUserProfile = () => {
           bgPosition="center"
           bgRepeat="no-repeat"
           bgSize="cover"
+          minHeight={"100vh"}
+          pt={"150px"}
         >
           {cardsFromServer
             .filter((data) => data.owner_id === 2)
@@ -61,8 +67,10 @@ const PageUserProfile = () => {
             .map((data) => {
               return <MyCard key={data.id} data={data} />;
             })}
+            
         </Box>
       )}
+      
     </Box>
   );
 };

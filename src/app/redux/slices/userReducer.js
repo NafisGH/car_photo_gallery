@@ -17,10 +17,25 @@ const signIn = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return "error getCards";
+      return "error signIn";
     }
   }
 );
+
+const signUp = createAsyncThunk(
+  "user/signUp",
+  async({userName, password, email}) => {
+    try {
+      const response = await axios.post(`${PRODUCTION_SERVER}/signup`, {userName, password, email})
+      console.log(response.data)
+      return response.data
+    } catch(error) {
+      return "error signUp";
+    }
+  }
+);
+
+
 
 const initialState = {
     data: [],
@@ -34,7 +49,7 @@ const initialState = {
     initialState,
     reducers: {},
     extraReducers: {
-      // getCards ------------------------------
+      // signIn ------------------------------
       [signIn.pending]: (state, action) => {
         state.isLoading = true;
       },
@@ -47,6 +62,19 @@ const initialState = {
         state.isLoading = false;
         state.isError = true;
       },
+      // signUp ------------------------------
+      [signUp.pending]: (state, action) => {
+        state.isLoading = true;
+      },
+      [signUp.fulfilled]: (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        
+      },
+      [signUp.rejected]: (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+      },
   
      
     },
@@ -54,7 +82,7 @@ const initialState = {
   
   export const {} = userSlice.actions;
   
-  export { signIn };
+  export { signIn, signUp };
   
   export const selectPageCount = (state) => state.photos.pageCount;
   export const selectPage = (state) => state.photos.page;
