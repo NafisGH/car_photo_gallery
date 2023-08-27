@@ -109,12 +109,13 @@ const updateCard = createAsyncThunk(
 );
 const createCard = createAsyncThunk(
   "photos/createCard",
-  async ({ ownerId, title, url }, { rejectWithValue }) => {
+  async ({ ownerId, title, author, url }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${PRODUCTION_SERVER}/cards`,
         {
           title,
+          author,
           ownerId,
           url,
         },

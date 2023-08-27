@@ -25,24 +25,23 @@ import {
 } from "app/redux/slices/photoReducer";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
+
   const handleGetCorrectDate = (data) => {
     let date = new Date(data.date);
-
     let day = date.getDate();
     if (day < 10) day = "0" + day;
-
     let month = date.getMonth() + 1;
     if (month < 10) month = "0" + month;
-
     let year = date.getFullYear();
     if (year < 10) year = "0" + year;
-
     return `${day}.${month}.${year}`;
   };
 
   const myEmail = "test02@m.ru";
 
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
+
+  const page = useSelector(selectPage);
 
   const handlOpenPopapEditeCard = () => {
     onOpenEditPopap({
@@ -54,14 +53,16 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
   };
 
   const handelDeleteCard =  () => {
-     dispach(deleteCard({ id: data.id, ownerId: data.ownerId }));
+     dispatch(deleteCard({ id: data.id, ownerId: data.ownerId }));
+     dispatch(getCards({ page, pageSize: 5 })); // ???
+    
   };
 
   const handleLikeCard = () => {
     if (data.likes && data.likes.includes(myEmail)) {
-      dispach(dislikeCard({ id: data.id, email: myEmail }));
+      dispatch(dislikeCard({ id: data.id, email: myEmail }));
     } else {
-      dispach(likeCard({ id: data.id, email: myEmail }));
+      dispatch(likeCard({ id: data.id, email: myEmail }));
     }
   };
 

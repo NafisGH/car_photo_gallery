@@ -25,9 +25,13 @@ const CreateCardModal = () => {
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
+  const [author, setAuthor] = useState("");
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
+  };
+  const handleChangeAuthor = (e) => {
+    setAuthor(e.target.value);
   };
   const handleChangeUrl = (e) => {
     setUrl(e.target.value);
@@ -35,16 +39,17 @@ const CreateCardModal = () => {
 
   const clearInputs = () => {
     setTitle("");
+    setAuthor("");
     setUrl("");
   };
 
   const page = useSelector(selectPage);
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispach(createCard({ ownerId: 2, title, url })).unwrap();
-    await dispach(getCards({ page, pageSize: 5 })).unwrap();
+    await dispatch(createCard({ ownerId: 2, title, author, url })).unwrap();
+    await dispatch(getCards({ page, pageSize: 5 })).unwrap();
     onClose();
     clearInputs();
   };
@@ -81,7 +86,12 @@ const CreateCardModal = () => {
 
             <FormControl mt={4}>
               <FormLabel>AUTHOR</FormLabel>
-              <Input placeholder="Сard author" />
+              <Input 
+                // ref={initialRef}
+                placeholder="Сard author"
+                value={author}
+                onChange={handleChangeAuthor}  
+              />
             </FormControl>
 
             <FormControl mt={4}>
