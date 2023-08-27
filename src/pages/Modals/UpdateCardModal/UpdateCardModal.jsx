@@ -33,7 +33,7 @@ const UpdateCardModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispach(updateCard({ id: 4, title, url }));
+    dispach(updateCard({ id, title, url }));
     onCloseEditPopap()
   };
 

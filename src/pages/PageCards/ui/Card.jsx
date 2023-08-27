@@ -14,31 +14,31 @@ import {
 } from "@chakra-ui/react";
 
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-// AiFillHeart
-
-import { BiCommentDetail } from "react-icons/bi";
-
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { useDispatch } from "react-redux";
-import { deleteCard, dislikeCard, likeCard } from "app/redux/slices/photoReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteCard,
+  dislikeCard,
+  getCards,
+  likeCard,
+  selectPage,
+} from "app/redux/slices/photoReducer";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
   const handleGetCorrectDate = (data) => {
     let date = new Date(data.date);
 
     let day = date.getDate();
-    if (day < 10) day = '0' + day;
+    if (day < 10) day = "0" + day;
 
     let month = date.getMonth() + 1;
-    if (month < 10) month = '0' + month;
+    if (month < 10) month = "0" + month;
 
     let year = date.getFullYear();
-    if (year < 10) year = '0' + year;
+    if (year < 10) year = "0" + year;
 
     return `${day}.${month}.${year}`;
   };
-
-
 
   const myEmail = "test02@m.ru";
 
@@ -53,18 +53,14 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
     });
   };
 
-  const handelDeleteCard = () => {
-    dispach(deleteCard({ id: data.id, ownerId: data.ownerId }));
+  const handelDeleteCard =  () => {
+     dispach(deleteCard({ id: data.id, ownerId: data.ownerId }));
   };
 
   const handleLikeCard = () => {
     if (data.likes && data.likes.includes(myEmail)) {
-      // dislike
-      console.log("dislike");
-      dispach(dislikeCard({id: data.id, email: myEmail}))
+      dispach(dislikeCard({ id: data.id, email: myEmail }));
     } else {
-      // like
-      console.log("like");
       dispach(likeCard({ id: data.id, email: myEmail }));
     }
   };
@@ -133,15 +129,6 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
               ) : (
                 <Icon as={AiOutlineHeart} w={5} h={5} />
               )}
-            </Button>
-            <Button
-              variant="ghost"
-              p={0}
-              borderWidth={2}
-              borderColor="gray.300"
-              
-            >
-              <Icon as={BiCommentDetail} w={5} h={5} />
             </Button>
           </ButtonGroup>
           <Text>{handleGetCorrectDate(data)}</Text>

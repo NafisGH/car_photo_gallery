@@ -29,7 +29,7 @@ const PageSignUp = () => {
   const handleSignUp = (e) => {
     e.preventDefault()
     dispach(signUp({userName, password, email}))
-    navigate("/")
+    navigate("/sign-in")
     console.log("handleSignUp")
   }
 

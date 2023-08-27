@@ -6,23 +6,13 @@ import { selectPage, selectPageCount } from "app/redux/slices/photoReducer";
 const Pagination = ({ page, setPage }) => {
   const pageCount = useSelector(selectPageCount);
 
+
   const handleClickBtnNextPage = () => {
-    if (pageCount - page < 6) {
-      setPage(pageCount);
-    } else {
-      setPage((page += 5));
-    }
+    setPage((page += 1));
   };
   const handleClickBtnPrevtPage = () => {
-    if (page < 6) {
-      setPage(1);
-    } else {
-      setPage((page -= 5));
-    }
+    setPage((page -= 1));
   };
-  // const handleClickPage = (value) => {
-  //     setPage(value)
-  // }
 
   const pages = useMemo(() => {
     if (pageCount < 5) {
@@ -42,7 +32,10 @@ const Pagination = ({ page, setPage }) => {
     return Array.from({ length: 5 }).map((_, index) => page + index - 2);
   }, [page, pageCount]);
 
+
+
   return (
+    
     <StyledPagination className="pagination">
       <button
         className="btn-pagination prev"
@@ -55,7 +48,6 @@ const Pagination = ({ page, setPage }) => {
           className={page === index + 1 ? "active" : ""}
           key={index}
           onClick={() => setPage(index + 1)}
-          // onClick={() => handleClickPage(value)}
         >
           {value}
         </li>

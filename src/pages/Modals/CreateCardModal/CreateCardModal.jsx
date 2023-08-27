@@ -14,10 +14,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-
-
-import { useDispatch } from "react-redux";
-import { createCard } from "app/redux/slices/photoReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { createCard, getCards, selectPage } from "app/redux/slices/photoReducer";
 
 const CreateCardModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,43 +23,40 @@ const CreateCardModal = () => {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
-  const [title, setTitle] = useState('');
-  const [url, setUrl] = useState('');
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
 
   const handleChangeTitle = (e) => {
-    setTitle(e.target.value)
-  }
+    setTitle(e.target.value);
+  };
   const handleChangeUrl = (e) => {
-    setUrl(e.target.value)
-  }
+    setUrl(e.target.value);
+  };
 
   const clearInputs = () => {
-    setTitle("")
-    setUrl("")
-}
+    setTitle("");
+    setUrl("");
+  };
 
-  const  dispach = useDispatch();
+  const page = useSelector(selectPage);
+  const dispach = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-      dispach(createCard({ownerId: 2, title, url}))
-      onClose()
-      clearInputs()
-      console.log("handleSubmit")
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await dispach(createCard({ ownerId: 2, title, url })).unwrap();
+    await dispach(getCards({ page, pageSize: 5 })).unwrap();
+    onClose();
+    clearInputs();
+  };
 
   const handelCancelCreatemodal = () => {
-    onClose()
-    clearInputs()
-  }
-
-  
-
+    onClose();
+    clearInputs();
+  };
 
   return (
     <>
       <Button onClick={onOpen}>Create new card</Button>
-      
 
       <Modal
         initialFocusRef={initialRef}
@@ -72,11 +67,16 @@ const CreateCardModal = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create your new card</ModalHeader>
-          <ModalCloseButton onClick={() => clearInputs()}/>
+          <ModalCloseButton onClick={() => clearInputs()} />
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>TITLE</FormLabel>
-              <Input ref={initialRef} placeholder="Card name" value={title} onChange={handleChangeTitle}/>
+              <Input
+                ref={initialRef}
+                placeholder="Card name"
+                value={title}
+                onChange={handleChangeTitle}
+              />
             </FormControl>
 
             <FormControl mt={4}>
@@ -86,14 +86,21 @@ const CreateCardModal = () => {
 
             <FormControl mt={4}>
               <FormLabel>URL</FormLabel>
-              <Input placeholder="url pictures" value={url} onChange={handleChangeUrl}/>
+              <Input
+                placeholder="url pictures"
+                value={url}
+                onChange={handleChangeUrl}
+              />
             </FormControl>
-
           </ModalBody>
 
           <ModalFooter display="flex" justifyContent="space-around">
-            <Button onClick={handelCancelCreatemodal} w="150px">Cancel</Button>
-            <Button onClick={handleSubmit} w="150px">Create</Button>
+            <Button onClick={handelCancelCreatemodal} w="150px">
+              Cancel
+            </Button>
+            <Button onClick={handleSubmit} w="150px">
+              Create
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

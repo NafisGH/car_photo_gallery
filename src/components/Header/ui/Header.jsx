@@ -1,5 +1,5 @@
 import { NavBar } from "../NavBar";
-import { Avatar, Box, Divider, Text, Button } from "@chakra-ui/react";
+import { Avatar, Box, Text } from "@chakra-ui/react";
 import Modals from "pages/Modals/ui/Modals";
 import { NavLink } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const Header = () => {
       alignItems="center"
       pl={"30px"}
       pr={"30px"}
-      position={"absolute"}
+      position={"fixed"}
     >
       <Text ml="10px" color="white" fontSize="30px">
         Project App

@@ -2,27 +2,24 @@
 import React, { useEffect, useState } from "react";
 import { MyCard } from "./Card";
 
-import { Box, Center, Input, Spinner } from "@chakra-ui/react";
+import { Box, Button, Center, Input, Spinner } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCards } from "app/redux/slices/photoReducer";
+import { getCards, selectIsLoading } from "app/redux/slices/photoReducer";
 import UpdateCardModal from "pages/Modals/UpdateCardModal/UpdateCardModal";
 import Pagination from "components/Pagination/Pagination";
 
 const PageCards = () => {
   const cardsFromServer = useSelector((state) => state.photos.data);
-
+  const isLoading = useSelector(selectIsLoading);
+  
   const [page, setPage] = useState(1);
-
-
-
-  const dispatch = useDispatch();
-
-  const [openEditPopap, setOpenEditPopap] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-
+  const [openEditPopap, setOpenEditPopap] = useState(false);
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-  const [isLoading, setLoading] = useState(true);
+  const [id, setId] = useState("");
+  
+  const dispatch = useDispatch();
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -34,40 +31,71 @@ const PageCards = () => {
   const hanleCloseEditPopap = () => {
     setOpenEditPopap(false);
   };
-  const hanleOpenEditPopap = ({ title, url }) => {
+  const hanleOpenEditPopap = ({ title, url, id }) => {
     setOpenEditPopap(true);
     setTitle(title);
     setUrl(url);
+    setId(id);
+  };
+
+  const handleSearch = () => {
+    dispatch(getCards({ page, pageSize: 5, title: searchValue }));
+  };
+
+  const handleClearSearch = () => {
+    setSearchValue("");
+    dispatch(getCards({ page, pageSize: 5 }));
   };
 
   useEffect(() => {
-    dispatch(getCards({ setLoading, page, pageSize: 5 }));
+    dispatch(getCards({ page, pageSize: 5 }));
   }, [dispatch, page]);
 
   return (
     <Box>
-      <Box>
+      <Box >
         <Input
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          placeholder="search card"
+          placeholder="search by title"
           size="md"
           position={"absolute"}
           mt={"80px"}
+          ml={"10px"}
           bgColor={"white"}
-          maxWidth={"95%"}
+          maxWidth={"80%"}
         />
+        <Button
+          maxWidth={"4%"}
+          mt={"80px"}
+          ml={"85%"}
+          bgColor={"white"}
+          position={"absolute"}
+          onClick={handleSearch}
+        >
+          Search
+        </Button>
+        <Button
+          maxWidth={"4%"}
+          mt={"80px"}
+          ml={"90%"}
+          bgColor={"white"}
+          position={"absolute"}
+          onClick={handleClearSearch}
+        >
+          Clear
+        </Button>
       </Box>
 
       {isLoading ? (
-        <Center>
+        <Center minHeight={"100vh"} bgColor="silver">
           <Spinner
             thickness="4px"
             speed="0.65s"
             emptyColor="gray.200"
             color="blue.500"
             size="xl"
-            mt="20%"
+            mt="15%"
           />
         </Center>
       ) : (
@@ -83,27 +111,22 @@ const PageCards = () => {
           minHeight={"100vh"}
           pt={"150px"}
         >
-          {cardsFromServer
-            .filter((data) => {
-              return data.title
-                .toLowerCase()
-                .includes(searchValue.toLowerCase());
-            })
-            .map((data, index) => {
-              return (
-                <MyCard
-                  key={data.id}
-                  data={data}
-                  onOpenEditPopap={hanleOpenEditPopap}
-                />
-              );
-            })}
+          {cardsFromServer.map((data) => {
+            return (
+              <MyCard
+                key={data.id}
+                data={data}
+                onOpenEditPopap={hanleOpenEditPopap}
+              />
+            );
+          })}
 
           <UpdateCardModal
             isOpen={openEditPopap}
             onCloseEditPopap={hanleCloseEditPopap}
             title={title}
             url={url}
+            id={id}
             handleChangeTitle={handleChangeTitle}
             handleChangeUrl={handleChangeUrl}
           />

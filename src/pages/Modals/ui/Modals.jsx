@@ -7,9 +7,7 @@ import CreateCardModal from '../CreateCardModal/CreateCardModal'
 const Modals = () => {
   return (
     <Box>
-        <CreateCardModal>
-            
-        </CreateCardModal>
+        <CreateCardModal/>
     </Box>
   )
 }

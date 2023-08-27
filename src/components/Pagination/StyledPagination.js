@@ -7,7 +7,7 @@ const StyledPagination = styled.ul`
   display: flex;
   justify-content: center;
   position: absolute;
-  margin-bottom: 3%;
+  margin-bottom: 4%;
 
   .btn-pagination {
     border: 1px solid black;

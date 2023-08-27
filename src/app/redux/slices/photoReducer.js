@@ -6,35 +6,39 @@ const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 
 const getCards = createAsyncThunk(
   "photos/getCards",
-  async ({ setLoading, page, pageSize }) => {
-    setLoading(true);
+  async ({ page, pageSize, title = '' }) => {
     try {
       const response = await axios.get(
-        `${PRODUCTION_SERVER}/cards?page=${page}&pageSize=${pageSize}`, {
+        `${PRODUCTION_SERVER}/cards?pageSize=${pageSize}&page=${page}&title=${title}`,
+
+        {
           headers: {
-            "authorization": localStorage.getItem("token")
-          }
+            authorization: localStorage.getItem("token"),
+          },
         }
       );
       return response.data;
     } catch (error) {
       return error;
-    } finally {
-      setLoading(false);
     }
   }
 );
 
 const likeCard = createAsyncThunk(
   "photos/likeCard",
-  async({ id, email }, { rejectWithValue }) => {
+  async ({ id, email }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`${PRODUCTION_SERVER}/cards/${id}/likes`, {
-        emailUser: email,
-        headers: {
-          "authorization": localStorage.getItem("token")
+      const response = await axios.patch(
+        `${PRODUCTION_SERVER}/cards/${id}/likes`,
+        {
+          emailUser: email,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
         }
-      });
+      );
       return response;
     } catch (error) {
       return rejectWithValue();
@@ -44,17 +48,19 @@ const likeCard = createAsyncThunk(
 
 const dislikeCard = createAsyncThunk(
   "photos/dislikeCard",
-  async({ id, email }, { rejectWithValue }) => {
+  async ({ id, email }, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`${PRODUCTION_SERVER}/cards/${id}/likes`, {
-        data: {
-          emailUser: email
-        },
-        headers: {
-          "authorization": localStorage.getItem("token")
+      const response = await axios.delete(
+        `${PRODUCTION_SERVER}/cards/${id}/likes`,
+        {
+          data: {
+            emailUser: email,
+          },
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
         }
-        
-      });
+      );
       return response;
     } catch (error) {
       return rejectWithValue();
@@ -69,8 +75,8 @@ const deleteCard = createAsyncThunk(
       const response = await axios.delete(`${PRODUCTION_SERVER}/cards/${id}`, {
         ownerId,
         headers: {
-          "authorization": localStorage.getItem("token")
-        }
+          authorization: localStorage.getItem("token"),
+        },
       });
       return id;
     } catch (error) {
@@ -83,13 +89,18 @@ const updateCard = createAsyncThunk(
   "photos/updateCard",
   async ({ id, title, url }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`${PRODUCTION_SERVER}/cards/${id}`, {
-        title,
-        url,
-        headers: {
-          "authorization": localStorage.getItem("token")
+      const response = await axios.patch(
+        `${PRODUCTION_SERVER}/cards/${id}`,
+        {
+          title,
+          url,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
         }
-      });
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue();
@@ -100,17 +111,21 @@ const createCard = createAsyncThunk(
   "photos/createCard",
   async ({ ownerId, title, url }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${PRODUCTION_SERVER}/cards`, {
-        title,
-        ownerId,
-        url,
-        headers: {
-          "authorization": localStorage.getItem("token")
+      const response = await axios.post(
+        `${PRODUCTION_SERVER}/cards`,
+        {
+          title,
+          ownerId,
+          url,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
         }
-      });
-      console.log("createCard")
+      );
+      console.log("createCard");
       return response.data;
-      
     } catch (error) {
       return rejectWithValue();
     }
@@ -132,7 +147,6 @@ export const photoSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-
     // likeCard ------------------------------
     [likeCard.pending]: (state, action) => {
       state.isLoading = true;
@@ -140,17 +154,19 @@ export const photoSlice = createSlice({
     [likeCard.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      const res = action.payload.data
+      const res = action.payload.data;
 
-      const indexLikedCard = state.data.findIndex((id) => id === res[0].id);
+
+      const indexLikedCard = state.data.findIndex(
+        (card) => card.id === res[0].id
+      );
       if (indexLikedCard !== -1) {
         state.data = [
           ...state.data.slice(0, indexLikedCard),
           res[0],
-          ...state.data.slice(indexLikedCard, + 1),
-        ]
+          ...state.data.slice(indexLikedCard, +1),
+        ];
       }
-
     },
     [likeCard.rejected]: (state, action) => {
       state.isLoading = false;
@@ -164,16 +180,17 @@ export const photoSlice = createSlice({
     [dislikeCard.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      const res = action.payload.data
-      const indexDislikeCard = state.data.findIndex((id) => id === res[0].id);
+      const res = action.payload.data;
+      const indexDislikeCard = state.data.findIndex(
+        (card) => card.id === res[0].id
+      );
       if (indexDislikeCard !== -1) {
         state.data = [
           ...state.data.slice(0, indexDislikeCard),
           res[0],
           ...state.data.slice(indexDislikeCard, +1),
-        ]
+        ];
       }
-
     },
     [dislikeCard.rejected]: (state, action) => {
       state.isLoading = false;
@@ -187,7 +204,7 @@ export const photoSlice = createSlice({
     [createCard.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.data.push(action.payload);
+      // state.data.push(action.payload);
     },
     [createCard.rejected]: (state, action) => {
       state.isLoading = false;
@@ -251,5 +268,6 @@ export { getCards, deleteCard, updateCard, createCard, likeCard, dislikeCard };
 
 export const selectPageCount = (state) => state.photos.pageCount;
 export const selectPage = (state) => state.photos.page;
+export const selectIsLoading = (state) => state.photos.isLoading;
 
 export default photoSlice.reducer;
