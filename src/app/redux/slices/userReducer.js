@@ -4,6 +4,15 @@ import axios from "axios";
 // const LOCAL_SERVER = "http://localhost:9400";
 const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 
+const getDefaultDataUser = () => {
+  const saveData = JSON.parse(localStorage.getItem("user"))
+  const {name, email} = saveData;
+  return {
+    name,
+    email,
+  }
+}
+
 const signIn = createAsyncThunk("user/signIn", async ({ password, email }) => {
   try {
     const response = await axios.post(`${PRODUCTION_SERVER}/signin`, {
@@ -11,8 +20,12 @@ const signIn = createAsyncThunk("user/signIn", async ({ password, email }) => {
       email,
     });
 
-    const { token } = response.data;
-    localStorage.setItem("token", `Bearer ${token}`);
+    const { token, name: nameUser, email: emailUser } = response.data;
+    localStorage.setItem("user", JSON.stringify({
+      token: `Bearer ${token}`,
+      name: nameUser,
+      email: emailUser,
+    }));
 
     return response.data;
   } catch (error) {
@@ -29,7 +42,6 @@ const signUp = createAsyncThunk(
         password,
         email,
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return "error signUp";
@@ -38,7 +50,7 @@ const signUp = createAsyncThunk(
 );
 
 const initialState = {
-  data: [],
+  data: getDefaultDataUser(),
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -54,8 +66,13 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
     [signIn.fulfilled]: (state, action) => {
+      const {email, name} = action.payload;
       state.isLoading = false;
       state.isSuccess = true;
+      state.data = {
+        name,
+        email,
+      }
     },
     [signIn.rejected]: (state, action) => {
       state.isLoading = false;
@@ -80,7 +97,6 @@ export const {} = userSlice.actions;
 
 export { signIn, signUp };
 
-export const selectPageCount = (state) => state.photos.pageCount;
-export const selectPage = (state) => state.photos.page;
+export const selectDataUser = (state) => state.user.data;
 
 export default userSlice.reducer;

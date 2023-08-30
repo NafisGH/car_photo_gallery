@@ -25,13 +25,13 @@ const CreateCardModal = () => {
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-  const [author, setAuthor] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
   };
   const handleChangeAuthor = (e) => {
-    setAuthor(e.target.value);
+    setDescription(e.target.value);
   };
   const handleChangeUrl = (e) => {
     setUrl(e.target.value);
@@ -39,7 +39,7 @@ const CreateCardModal = () => {
 
   const clearInputs = () => {
     setTitle("");
-    setAuthor("");
+    setDescription("");
     setUrl("");
   };
 
@@ -48,7 +48,7 @@ const CreateCardModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(createCard({ ownerId: 2, title, author, url })).unwrap();
+    await dispatch(createCard({ ownerId: 2, title, description, url })).unwrap();
     await dispatch(getCards({ page, pageSize: 5 })).unwrap();
     onClose();
     clearInputs();
@@ -70,10 +70,10 @@ const CreateCardModal = () => {
         onClose={onClose}
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mt={"20%"}>
           <ModalHeader>Create your new card</ModalHeader>
           <ModalCloseButton onClick={() => clearInputs()} />
-          <ModalBody pb={6}>
+          <ModalBody pb={6} >
             <FormControl>
               <FormLabel>TITLE</FormLabel>
               <Input
@@ -85,11 +85,11 @@ const CreateCardModal = () => {
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>AUTHOR</FormLabel>
+              <FormLabel>Description</FormLabel>
               <Input 
                 // ref={initialRef}
-                placeholder="Сard author"
-                value={author}
+                placeholder="Description"
+                value={description}
                 onChange={handleChangeAuthor}  
               />
             </FormControl>

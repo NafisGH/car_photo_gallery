@@ -19,12 +19,14 @@ const UpdateCardModal = ({
   onCloseEditPopap,
   isOpen,
   title,
+  description,
   url,
   id,
   handleChangeUrl,
   handleChangeTitle,
+  handleChangeDescription
 }) => {
-  //   const { isOpen, onOpen, onClose } = useDisclosure();
+    // const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -33,7 +35,7 @@ const UpdateCardModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispach(updateCard({ id, title, url }));
+    dispach(updateCard({ id, title, description, url }));
     onCloseEditPopap()
   };
 
@@ -46,17 +48,27 @@ const UpdateCardModal = ({
         onClose={onCloseEditPopap}
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mt={"20%"}>
           <ModalHeader>Update card</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>TITLE</FormLabel>
+              <FormLabel>Title</FormLabel>
               <Input
                 ref={initialRef}
                 placeholder="Card name"
                 value={title}
                 onChange={handleChangeTitle}
+              />
+            </FormControl>
+            
+            <FormControl mt={4}>
+              <FormLabel>Description</FormLabel>
+              <Input
+                ref={initialRef}
+                placeholder="Description"
+                value={description}
+                onChange={handleChangeDescription}
               />
             </FormControl>
 

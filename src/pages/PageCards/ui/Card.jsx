@@ -23,8 +23,13 @@ import {
   likeCard,
   selectPage,
 } from "app/redux/slices/photoReducer";
+import { selectDataUser } from "app/redux/slices/userReducer";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
+
+  const { email } = useSelector(selectDataUser);
+
+
 
   const handleGetCorrectDate = (data) => {
     let date = new Date(data.date);
@@ -37,7 +42,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
     return `${day}.${month}.${year}`;
   };
 
-  const myEmail = "test02@m.ru";
+
 
   const dispatch = useDispatch();
 
@@ -46,6 +51,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
   const handlOpenPopapEditeCard = () => {
     onOpenEditPopap({
       title: data.title,
+      description: data.description,
       url: data.url,
       ownerId: data.ownerId,
       id: data.id,
@@ -59,10 +65,10 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
   };
 
   const handleLikeCard = () => {
-    if (data.likes && data.likes.includes(myEmail)) {
-      dispatch(dislikeCard({ id: data.id, email: myEmail }));
+    if (data.likes && data.likes.includes(email)) {
+      dispatch(dislikeCard({ id: data.id, email }));
     } else {
-      dispatch(likeCard({ id: data.id, email: myEmail }));
+      dispatch(likeCard({ id: data.id, email }));
     }
   };
 
@@ -96,7 +102,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
           Title: {data.title}
         </Heading>
         <Heading size="md" mb={2}>
-          Author: {data.author}
+          Author: {data.author} 
         </Heading>
         <Image
           src={data.url}
@@ -106,7 +112,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
           w="100%"
         />
         <Text mt={2}>
-          View a summary of all your customers over the last month.
+          {data.description}
         </Text>
       </CardBody>
 
@@ -125,7 +131,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
               borderColor="gray.300"
               onClick={handleLikeCard}
             >
-              {data.likes && data.likes.includes(myEmail) ? (
+              {data.likes && data.likes.includes(email) ? (
                 <Icon as={AiFillHeart} fill="red" w={5} h={5} />
               ) : (
                 <Icon as={AiOutlineHeart} w={5} h={5} />

@@ -16,14 +16,18 @@ const PageCards = () => {
   const [searchValue, setSearchValue] = useState("");
   const [openEditPopap, setOpenEditPopap] = useState(false);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
   const [id, setId] = useState("");
   
   const dispatch = useDispatch();
-  
+
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
+  };
+  const handleChangeDescription = (e) => {
+    setDescription(e.target.value);
   };
   const handleChangeUrl = (e) => {
     setUrl(e.target.value);
@@ -32,9 +36,10 @@ const PageCards = () => {
   const hanleCloseEditPopap = () => {
     setOpenEditPopap(false);
   };
-  const hanleOpenEditPopap = ({ title, url, id }) => {
+  const hanleOpenEditPopap = ({ title, description, url, id }) => {
     setOpenEditPopap(true);
     setTitle(title);
+    setDescription(description);
     setUrl(url);
     setId(id);
   };
@@ -126,9 +131,11 @@ const PageCards = () => {
             isOpen={openEditPopap}
             onCloseEditPopap={hanleCloseEditPopap}
             title={title}
+            description={description}
             url={url}
             id={id}
             handleChangeTitle={handleChangeTitle}
+            handleChangeDescription={handleChangeDescription}
             handleChangeUrl={handleChangeUrl}
           />
         </Box>

@@ -13,7 +13,7 @@ const getCards = createAsyncThunk(
 
         {
           headers: {
-            authorization: localStorage.getItem("token"),
+            authorization: JSON.parse(localStorage.getItem("user")).token,
           },
         }
       );
@@ -26,16 +26,14 @@ const getCards = createAsyncThunk(
 
 const likeCard = createAsyncThunk(
   "photos/likeCard",
-  async ({ id, email }, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
         `${PRODUCTION_SERVER}/cards/${id}/likes`,
-        {
-          emailUser: email,
-        },
+        {},
         {
           headers: {
-            authorization: localStorage.getItem("token"),
+            authorization: JSON.parse(localStorage.getItem("user")).token,
           },
         }
       );
@@ -48,16 +46,13 @@ const likeCard = createAsyncThunk(
 
 const dislikeCard = createAsyncThunk(
   "photos/dislikeCard",
-  async ({ id, email }, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
         `${PRODUCTION_SERVER}/cards/${id}/likes`,
         {
-          data: {
-            emailUser: email,
-          },
           headers: {
-            authorization: localStorage.getItem("token"),
+            authorization: JSON.parse(localStorage.getItem("user")).token,
           },
         }
       );
@@ -75,7 +70,7 @@ const deleteCard = createAsyncThunk(
       const response = await axios.delete(`${PRODUCTION_SERVER}/cards/${id}`, {
         ownerId,
         headers: {
-          authorization: localStorage.getItem("token"),
+          authorization: JSON.parse(localStorage.getItem("user")).token,
         },
       });
       return id;
@@ -87,17 +82,18 @@ const deleteCard = createAsyncThunk(
 
 const updateCard = createAsyncThunk(
   "photos/updateCard",
-  async ({ id, title, url }, { rejectWithValue }) => {
+  async ({ id, title, description, url }, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
         `${PRODUCTION_SERVER}/cards/${id}`,
         {
           title,
+          description,
           url,
         },
         {
           headers: {
-            authorization: localStorage.getItem("token"),
+            authorization: JSON.parse(localStorage.getItem("user")).token,
           },
         }
       );
@@ -107,21 +103,22 @@ const updateCard = createAsyncThunk(
     }
   }
 );
+
 const createCard = createAsyncThunk(
   "photos/createCard",
-  async ({ ownerId, title, author, url }, { rejectWithValue }) => {
+  async ({ ownerId, title, description, url }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${PRODUCTION_SERVER}/cards`,
         {
           title,
-          author,
+          description,
           ownerId,
           url,
         },
         {
           headers: {
-            authorization: localStorage.getItem("token"),
+            authorization: JSON.parse(localStorage.getItem("user")).token,
           },
         }
       );
@@ -150,7 +147,7 @@ export const photoSlice = createSlice({
   extraReducers: {
     // likeCard ------------------------------
     [likeCard.pending]: (state, action) => {
-      state.isLoading = true;
+      // state.isLoading = true;
     },
     [likeCard.fulfilled]: (state, action) => {
       state.isLoading = false;
@@ -165,7 +162,7 @@ export const photoSlice = createSlice({
         state.data = [
           ...state.data.slice(0, indexLikedCard),
           res[0],
-          ...state.data.slice(indexLikedCard, +1),
+          ...state.data.slice(indexLikedCard +1),
         ];
       }
     },
@@ -176,7 +173,7 @@ export const photoSlice = createSlice({
 
     // dislikeCard ------------------------------
     [dislikeCard.pending]: (state, action) => {
-      state.isLoading = true;
+      // state.isLoading = true;
     },
     [dislikeCard.fulfilled]: (state, action) => {
       state.isLoading = false;
@@ -189,7 +186,7 @@ export const photoSlice = createSlice({
         state.data = [
           ...state.data.slice(0, indexDislikeCard),
           res[0],
-          ...state.data.slice(indexDislikeCard, +1),
+          ...state.data.slice(indexDislikeCard +1),
         ];
       }
     },
