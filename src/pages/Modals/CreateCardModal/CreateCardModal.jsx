@@ -12,10 +12,16 @@ import {
   Input,
   Button,
   useDisclosure,
+  FormErrorMessage,
+  FormHelperText,
 } from "@chakra-ui/react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { createCard, getCards, selectPage } from "app/redux/slices/photoReducer";
+import {
+  createCard,
+  getCards,
+  selectPage,
+} from "app/redux/slices/photoReducer";
 
 const CreateCardModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,13 +36,20 @@ const CreateCardModal = () => {
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
   };
+  const isError = title === "";
+  const regExpUrl = /https?:\/\/(www\.)?[-\w@:%\.\+~#=]{1,256}\.[a-z0-9()]{1,6}\b([-\w()@:%\.\+~#=//?&]*)/i;
+
+  const isRegExp = regExpUrl.test(url) ? true : false;
+
+  
+
   const handleChangeAuthor = (e) => {
     setDescription(e.target.value);
   };
   const handleChangeUrl = (e) => {
     setUrl(e.target.value);
   };
-
+  
   const clearInputs = () => {
     setTitle("");
     setDescription("");
@@ -48,7 +61,9 @@ const CreateCardModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(createCard({ ownerId: 2, title, description, url })).unwrap();
+    await dispatch(
+      createCard({ ownerId: 2, title, description, url })
+    ).unwrap();
     await dispatch(getCards({ page, pageSize: 5 })).unwrap();
     onClose();
     clearInputs();
@@ -73,28 +88,31 @@ const CreateCardModal = () => {
         <ModalContent mt={"20%"}>
           <ModalHeader>Create your new card</ModalHeader>
           <ModalCloseButton onClick={() => clearInputs()} />
-          <ModalBody pb={6} >
-            <FormControl>
-              <FormLabel>TITLE</FormLabel>
+          <ModalBody pb={6}>
+            <FormControl isInvalid={isError}>
+              <FormLabel>Title</FormLabel>
               <Input
                 ref={initialRef}
-                placeholder="Card name"
                 value={title}
                 onChange={handleChangeTitle}
               />
+              {!isError ? (
+                <FormHelperText></FormHelperText>
+              ) : (
+                <FormErrorMessage>Title is required.</FormErrorMessage>
+              )}
             </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>Description</FormLabel>
-              <Input 
+              <Input
                 // ref={initialRef}
-                placeholder="Description"
                 value={description}
-                onChange={handleChangeAuthor}  
+                onChange={handleChangeAuthor}
               />
             </FormControl>
 
-            <FormControl mt={4}>
+            <FormControl mt={4} isRequired>
               <FormLabel>URL</FormLabel>
               <Input
                 placeholder="url pictures"
@@ -105,12 +123,25 @@ const CreateCardModal = () => {
           </ModalBody>
 
           <ModalFooter display="flex" justifyContent="space-around">
-            <Button onClick={handelCancelCreatemodal} w="150px">
+            <Button
+              onClick={handelCancelCreatemodal}
+              w="150px"
+              bgColor={"silver"}
+              _hover={{ bgColor: "gray" }}
+            >
               Cancel
             </Button>
-            <Button onClick={handleSubmit} w="150px">
-              Create
-            </Button>
+
+
+            {!isError && isRegExp ? (
+              <Button onClick={handleSubmit} w="150px" bgColor={"silver"}>
+                Create
+              </Button>
+            ) : (
+              <Button w="150px" bgColor={"silver"} isDisabled>
+                Create
+              </Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

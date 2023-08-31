@@ -1,16 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// const LOCAL_SERVER = "http://localhost:9400";
 const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 
 const getCards = createAsyncThunk(
   "photos/getCards",
   async ({ page, pageSize, title = '' }) => {
     try {
-      const response = await axios.get(
+       const response = await axios.get(
         `${PRODUCTION_SERVER}/cards?pageSize=${pageSize}&page=${page}&title=${title}`,
-
         {
           headers: {
             authorization: JSON.parse(localStorage.getItem("user")).token,
