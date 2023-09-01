@@ -5,7 +5,7 @@ import axios from "axios";
 const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 
 const getDefaultDataUser = () => {
-  const saveData = JSON.parse(localStorage.getItem("user"))
+  const saveData = JSON.parse(localStorage.getItem("user"));
   const {name, email} = saveData;
   return {
     name,
@@ -78,6 +78,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
+
     // signUp ------------------------------
     [signUp.pending]: (state, action) => {
       state.isLoading = true;

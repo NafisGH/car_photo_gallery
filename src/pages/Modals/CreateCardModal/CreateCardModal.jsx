@@ -41,15 +41,13 @@ const CreateCardModal = () => {
 
   const isRegExp = regExpUrl.test(url) ? true : false;
 
-  
-
   const handleChangeAuthor = (e) => {
     setDescription(e.target.value);
   };
   const handleChangeUrl = (e) => {
     setUrl(e.target.value);
   };
-  
+
   const clearInputs = () => {
     setTitle("");
     setDescription("");
@@ -97,7 +95,7 @@ const CreateCardModal = () => {
                 onChange={handleChangeTitle}
               />
               {!isError ? (
-                <FormHelperText></FormHelperText>
+                ''
               ) : (
                 <FormErrorMessage>Title is required.</FormErrorMessage>
               )}
@@ -131,7 +129,6 @@ const CreateCardModal = () => {
             >
               Cancel
             </Button>
-
 
             {!isError && isRegExp ? (
               <Button onClick={handleSubmit} w="150px" bgColor={"silver"}>

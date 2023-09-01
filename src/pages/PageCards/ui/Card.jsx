@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -27,9 +27,10 @@ import { selectDataUser } from "app/redux/slices/userReducer";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
 
-  const { email } = useSelector(selectDataUser);
 
+  const { email, name } = useSelector(selectDataUser);
 
+const myEmail = name === data.author ? true : false;
 
   const handleGetCorrectDate = (data) => {
     let date = new Date(data.date);
@@ -76,7 +77,9 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
     <Card maxW="350px" borderRadius={10} maxH="550px">
       <CardHeader display="flex" justifyContent="flex-end" pb={5}>
         <ButtonGroup spacing={1}>
-          <Button
+
+          {myEmail ? (
+            <Button
             variant="ghost"
             p={0}
             borderWidth={2}
@@ -85,6 +88,22 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
           >
             <Icon as={DeleteIcon} w={5} h={5} />
           </Button>
+          ) : (
+            <Button
+            variant="ghost"
+            p={0}
+            borderWidth={2}
+            borderColor="gray.300"
+            onClick={handelDeleteCard}
+            isDisabled
+          >
+            <Icon as={DeleteIcon} w={5} h={5} />
+          </Button>
+          )
+
+          }
+          
+
           <Button
             variant="ghost"
             p={0}
@@ -94,6 +113,7 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
           >
             <Icon as={EditIcon} w={5} h={5} />
           </Button>
+          
         </ButtonGroup>
       </CardHeader>
 
