@@ -1,11 +1,12 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import StyledPagination from "./StyledPagination";
 import { useSelector } from "react-redux";
 import { selectPage, selectPageCount } from "app/redux/slices/photoReducer";
 
 const Pagination = ({ page, setPage }) => {
   const pageCount = useSelector(selectPageCount);
-
+  console.log("pageCount", pageCount);
+  console.log("page", page);
 
   const handleClickBtnNextPage = () => {
     setPage((page += 1));
@@ -18,31 +19,44 @@ const Pagination = ({ page, setPage }) => {
     if (pageCount < 5) {
       return Array.from({ length: pageCount }).map((_, index) => index + 1);
     }
-
     const lastPage = pageCount - page;
-
     if (lastPage < 3) {
       return Array.from({ length: 5 }).map((_, index) => pageCount - 4 + index);
     }
-
     if (page < 3) {
       return Array.from({ length: 5 }).map((_, index) => index + 1);
     }
-
     return Array.from({ length: 5 }).map((_, index) => page + index - 2);
   }, [page, pageCount]);
 
+  useEffect(() => {
+    if (page > pageCount) {
+      setPage(pageCount);
+    }
+  }, [page, pageCount, setPage]);
 
+  // const isDisableNext = page === pageCount;
+  // const isDisablePrev = page === 1;
 
   return (
-    
     <StyledPagination className="pagination">
-      <button
-        className="btn-pagination prev"
-        onClick={() => handleClickBtnPrevtPage()}
-      >
-        PREVIOUS
-      </button>
+      {page === 1 ? (
+        <button
+          disabled
+          className="btn-pagination prev disabled"
+          onClick={() => handleClickBtnPrevtPage()}
+        >
+          PREVIOUS
+        </button>
+      ) : (
+        <button
+          className="btn-pagination prev"
+          onClick={() => handleClickBtnPrevtPage()}
+        >
+          PREVIOUS
+        </button>
+      )}
+
       {pages.map((value, index) => (
         <li
           className={page === index + 1 ? "active" : ""}
@@ -52,12 +66,22 @@ const Pagination = ({ page, setPage }) => {
           {value}
         </li>
       ))}
-      <button
-        className="btn-pagination next"
-        onClick={() => handleClickBtnNextPage()}
-      >
-        NEXT
-      </button>
+      {page === pageCount ? (
+        <button
+          disabled
+          className="btn-pagination next disabled"
+          onClick={() => handleClickBtnNextPage()}
+        >
+          NEXT
+        </button>
+      ) : (
+        <button
+          className="btn-pagination next"
+          onClick={() => handleClickBtnNextPage()}
+        >
+          NEXT
+        </button>
+      )}
     </StyledPagination>
   );
 };

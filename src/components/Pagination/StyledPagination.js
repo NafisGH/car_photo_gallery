@@ -7,7 +7,7 @@ const StyledPagination = styled.ul`
   display: flex;
   justify-content: center;
   position: absolute;
-  margin-bottom: 4%;
+  margin-bottom: 60px;
 
   .btn-pagination {
     border: 1px solid black;
@@ -23,16 +23,25 @@ const StyledPagination = styled.ul`
     }
 
     &.prev {
-        margin-right: 20px;
+      margin-right: 20px;
+      &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
     }
+
     &.next {
-        margin-left: 20px;
+      margin-left: 20px;
+      &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
     }
   }
 
   li:not(:last-of-type) {
-        margin-right: 15px;
-    }
+    margin-right: 15px;
+  }
 
   li {
     max-width: 40px;

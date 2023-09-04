@@ -37,7 +37,8 @@ const CreateCardModal = () => {
     setTitle(e.target.value);
   };
   const isError = title === "";
-  const regExpUrl = /https?:\/\/(www\.)?[-\w@:%\.\+~#=]{1,256}\.[a-z0-9()]{1,6}\b([-\w()@:%\.\+~#=//?&]*)/i;
+  const regExpUrl =
+    /https?:\/\/(www\.)?[-\w@:%\.\+~#=]{1,256}\.[a-z0-9()]{1,6}\b([-\w()@:%\.\+~#=//?&]*)/i;
 
   const isRegExp = regExpUrl.test(url) ? true : false;
 
@@ -95,7 +96,7 @@ const CreateCardModal = () => {
                 onChange={handleChangeTitle}
               />
               {!isError ? (
-                ''
+                ""
               ) : (
                 <FormErrorMessage>Title is required.</FormErrorMessage>
               )}

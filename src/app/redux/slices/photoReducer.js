@@ -5,9 +5,9 @@ const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 
 const getCards = createAsyncThunk(
   "photos/getCards",
-  async ({ page, pageSize, title = '' }) => {
+  async ({ page, pageSize, title = "" }) => {
     try {
-       const response = await axios.get(
+      const response = await axios.get(
         `${PRODUCTION_SERVER}/cards?pageSize=${pageSize}&page=${page}&title=${title}`,
         {
           headers: {
@@ -152,7 +152,6 @@ export const photoSlice = createSlice({
       state.isSuccess = true;
       const res = action.payload.data;
 
-
       const indexLikedCard = state.data.findIndex(
         (card) => card.id === res[0].id
       );
@@ -160,7 +159,7 @@ export const photoSlice = createSlice({
         state.data = [
           ...state.data.slice(0, indexLikedCard),
           res[0],
-          ...state.data.slice(indexLikedCard +1),
+          ...state.data.slice(indexLikedCard + 1),
         ];
       }
     },
@@ -184,7 +183,7 @@ export const photoSlice = createSlice({
         state.data = [
           ...state.data.slice(0, indexDislikeCard),
           res[0],
-          ...state.data.slice(indexDislikeCard +1),
+          ...state.data.slice(indexDislikeCard + 1),
         ];
       }
     },

@@ -6,12 +6,19 @@ const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 
 const getDefaultDataUser = () => {
   const saveData = JSON.parse(localStorage.getItem("user"));
-  const {name, email} = saveData;
-  return {
-    name,
-    email,
+  if (saveData) {
+    const { name, email } = saveData;
+    return {
+      name,
+      email,
+    };
+  } else {
+    return {
+      name: "",
+      email: "",
+    };
   }
-}
+};
 
 const signIn = createAsyncThunk("user/signIn", async ({ password, email }) => {
   try {
@@ -21,11 +28,14 @@ const signIn = createAsyncThunk("user/signIn", async ({ password, email }) => {
     });
 
     const { token, name: nameUser, email: emailUser } = response.data;
-    localStorage.setItem("user", JSON.stringify({
-      token: `Bearer ${token}`,
-      name: nameUser,
-      email: emailUser,
-    }));
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        token: `Bearer ${token}`,
+        name: nameUser,
+        email: emailUser,
+      })
+    );
 
     return response.data;
   } catch (error) {
@@ -66,13 +76,13 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
     [signIn.fulfilled]: (state, action) => {
-      const {email, name} = action.payload;
+      const { email, name } = action.payload;
       state.isLoading = false;
       state.isSuccess = true;
       state.data = {
         name,
         email,
-      }
+      };
     },
     [signIn.rejected]: (state, action) => {
       state.isLoading = false;

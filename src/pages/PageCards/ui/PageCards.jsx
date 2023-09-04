@@ -1,4 +1,3 @@
-// import { ListCards } from 'components/ListCards'
 import React, { useEffect, useState } from "react";
 import { MyCard } from "./Card";
 
@@ -11,7 +10,7 @@ import Pagination from "components/Pagination/Pagination";
 const PageCards = () => {
   const cardsFromServer = useSelector((state) => state.photos.data);
   const isLoading = useSelector(selectIsLoading);
-  
+
   const [page, setPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [openEditPopap, setOpenEditPopap] = useState(false);
@@ -19,23 +18,15 @@ const PageCards = () => {
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
   const [id, setId] = useState("");
-  
+
   const dispatch = useDispatch();
 
+  const handleChangeTitle = (e) => setTitle(e.target.value);
+  const handleChangeDescription = (e) => setDescription(e.target.value);
+  const handleChangeUrl = (e) => setUrl(e.target.value);
 
-  const handleChangeTitle = (e) => {
-    setTitle(e.target.value);
-  };
-  const handleChangeDescription = (e) => {
-    setDescription(e.target.value);
-  };
-  const handleChangeUrl = (e) => {
-    setUrl(e.target.value);
-  };
+  const hanleCloseEditPopap = () => setOpenEditPopap(false);
 
-  const hanleCloseEditPopap = () => {
-    setOpenEditPopap(false);
-  };
   const hanleOpenEditPopap = ({ title, description, url, id }) => {
     setOpenEditPopap(true);
     setTitle(title);
@@ -59,7 +50,7 @@ const PageCards = () => {
 
   return (
     <Box>
-      <Box >
+      <Box>
         <Input
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
@@ -116,16 +107,18 @@ const PageCards = () => {
           bgSize="cover"
           minHeight={"100vh"}
           pt={"150px"}
+          pb={100}
         >
-          {cardsFromServer.map((data) => {
-            return (
-              <MyCard
-                key={data.id}
-                data={data}
-                onOpenEditPopap={hanleOpenEditPopap}
-              />
-            );
-          })}
+          {cardsFromServer &&
+            cardsFromServer.map((data) => {
+              return (
+                <MyCard
+                  key={data.id}
+                  data={data}
+                  onOpenEditPopap={hanleOpenEditPopap}
+                />
+              );
+            })}
 
           <UpdateCardModal
             isOpen={openEditPopap}

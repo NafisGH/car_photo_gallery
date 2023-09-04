@@ -26,11 +26,9 @@ import {
 import { selectDataUser } from "app/redux/slices/userReducer";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
-
-
   const { email, name } = useSelector(selectDataUser);
 
-const myEmail = name === data.author ? true : false;
+  const isMyCard = name === data.author ? true : false;
 
   const handleGetCorrectDate = (data) => {
     let date = new Date(data.date);
@@ -42,8 +40,6 @@ const myEmail = name === data.author ? true : false;
     if (year < 10) year = "0" + year;
     return `${day}.${month}.${year}`;
   };
-
-
 
   const dispatch = useDispatch();
 
@@ -59,10 +55,9 @@ const myEmail = name === data.author ? true : false;
     });
   };
 
-  const handelDeleteCard =  () => {
-     dispatch(deleteCard({ id: data.id, ownerId: data.ownerId }));
-     dispatch(getCards({ page, pageSize: 5 })); // ???
-    
+  const handelDeleteCard = async () => {
+    await dispatch(deleteCard({ id: data.id, ownerId: data.ownerId })).unwrap();
+    dispatch(getCards({ page, pageSize: 5 })).unwrap();
   };
 
   const handleLikeCard = () => {
@@ -77,32 +72,28 @@ const myEmail = name === data.author ? true : false;
     <Card maxW="350px" borderRadius={10} maxH="550px">
       <CardHeader display="flex" justifyContent="flex-end" pb={5}>
         <ButtonGroup spacing={1}>
-
-          {myEmail ? (
+          {isMyCard ? (
             <Button
-            variant="ghost"
-            p={0}
-            borderWidth={2}
-            borderColor="gray.300"
-            onClick={handelDeleteCard}
-          >
-            <Icon as={DeleteIcon} w={5} h={5} />
-          </Button>
+              variant="ghost"
+              p={0}
+              borderWidth={2}
+              borderColor="gray.300"
+              onClick={handelDeleteCard}
+            >
+              <Icon as={DeleteIcon} w={5} h={5} />
+            </Button>
           ) : (
             <Button
-            variant="ghost"
-            p={0}
-            borderWidth={2}
-            borderColor="gray.300"
-            onClick={handelDeleteCard}
-            isDisabled
-          >
-            <Icon as={DeleteIcon} w={5} h={5} />
-          </Button>
-          )
-
-          }
-          
+              variant="ghost"
+              p={0}
+              borderWidth={2}
+              borderColor="gray.300"
+              onClick={handelDeleteCard}
+              isDisabled
+            >
+              <Icon as={DeleteIcon} w={5} h={5} />
+            </Button>
+          )}
 
           <Button
             variant="ghost"
@@ -113,7 +104,6 @@ const myEmail = name === data.author ? true : false;
           >
             <Icon as={EditIcon} w={5} h={5} />
           </Button>
-          
         </ButtonGroup>
       </CardHeader>
 
@@ -122,7 +112,7 @@ const myEmail = name === data.author ? true : false;
           Title: {data.title}
         </Heading>
         <Heading size="md" mb={2}>
-          Author: {data.author} 
+          Author: {data.author}
         </Heading>
         <Image
           src={data.url}
@@ -131,9 +121,7 @@ const myEmail = name === data.author ? true : false;
           h="220px"
           w="100%"
         />
-        <Text mt={2}>
-          {data.description}
-        </Text>
+        <Text mt={2}>{data.description}</Text>
       </CardBody>
 
       <CardFooter display="flex" flexDirection="column">
