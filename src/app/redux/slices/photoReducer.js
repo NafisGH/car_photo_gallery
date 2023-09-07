@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
@@ -199,7 +200,6 @@ export const photoSlice = createSlice({
     [createCard.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      // state.data.push(action.payload);
     },
     [createCard.rejected]: (state, action) => {
       state.isLoading = false;
@@ -231,10 +231,12 @@ export const photoSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = true;
       state.data = state.data.filter((card) => card.id !== action.payload);
+      toast("Карточка успешно удалена");
     },
     [deleteCard.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
+      toast("Карточку не получилось удалить !!!");
     },
 
     // updateCard ------------------------------

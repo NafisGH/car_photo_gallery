@@ -13,7 +13,6 @@ import {
   Button,
   useDisclosure,
   FormErrorMessage,
-  FormHelperText,
 } from "@chakra-ui/react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -91,6 +90,7 @@ const CreateCardModal = () => {
             <FormControl isInvalid={isError}>
               <FormLabel>Title</FormLabel>
               <Input
+                placeholder="name card"
                 ref={initialRef}
                 value={title}
                 onChange={handleChangeTitle}
@@ -111,13 +111,18 @@ const CreateCardModal = () => {
               />
             </FormControl>
 
-            <FormControl mt={4} isRequired>
+            <FormControl mt={4} isInvalid={isError}>
               <FormLabel>URL</FormLabel>
               <Input
-                placeholder="url pictures"
+                placeholder="https://"
                 value={url}
                 onChange={handleChangeUrl}
               />
+              {!isError ? (
+                ""
+              ) : (
+                <FormErrorMessage>url is required.</FormErrorMessage>
+              )}
             </FormControl>
           </ModalBody>
 

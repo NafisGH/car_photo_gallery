@@ -1,12 +1,11 @@
 import { selectDataUser } from "app/redux/slices/userReducer";
-import { NavBar } from "../NavBar";
-import { Avatar, Box, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Text } from "@chakra-ui/react";
 import Modals from "pages/Modals/ui/Modals";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const { email } = useSelector(selectDataUser);
+
   return (
     <Box
       w="100%"
@@ -24,13 +23,9 @@ const Header = () => {
       </Text>
 
       <Modals />
+      <Button>Exit</Button>
 
-      <NavBar />
-
-      <Box 
-        display={"flex"}
-        alignItems={"center"}
-      >
+      <Box display={"flex"} alignItems={"center"}>
         <Box color={"white"}>{email}</Box>
         <Avatar
           src="https://bit.ly/broken-link"

@@ -24,10 +24,8 @@ const UpdateCardModal = ({
   id,
   handleChangeUrl,
   handleChangeTitle,
-  handleChangeDescription
+  handleChangeDescription,
 }) => {
-    // const { isOpen, onOpen, onClose } = useDisclosure();
-
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
@@ -36,7 +34,7 @@ const UpdateCardModal = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     dispach(updateCard({ id, title, description, url }));
-    onCloseEditPopap()
+    onCloseEditPopap();
   };
 
   return (
@@ -61,7 +59,7 @@ const UpdateCardModal = ({
                 onChange={handleChangeTitle}
               />
             </FormControl>
-            
+
             <FormControl mt={4}>
               <FormLabel>Description</FormLabel>
               <Input

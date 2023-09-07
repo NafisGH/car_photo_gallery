@@ -1,12 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import StyledPagination from "./StyledPagination";
 import { useSelector } from "react-redux";
-import { selectPage, selectPageCount } from "app/redux/slices/photoReducer";
+import { selectPageCount } from "app/redux/slices/photoReducer";
 
 const Pagination = ({ page, setPage }) => {
   const pageCount = useSelector(selectPageCount);
-  console.log("pageCount", pageCount);
-  console.log("page", page);
 
   const handleClickBtnNextPage = () => {
     setPage((page += 1));
@@ -34,9 +32,6 @@ const Pagination = ({ page, setPage }) => {
       setPage(pageCount);
     }
   }, [page, pageCount, setPage]);
-
-  // const isDisableNext = page === pageCount;
-  // const isDisablePrev = page === 1;
 
   return (
     <StyledPagination className="pagination">

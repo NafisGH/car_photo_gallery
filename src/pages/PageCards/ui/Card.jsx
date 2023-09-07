@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -95,15 +95,28 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
             </Button>
           )}
 
-          <Button
-            variant="ghost"
-            p={0}
-            borderWidth={2}
-            borderColor="gray.300"
-            onClick={handlOpenPopapEditeCard}
-          >
-            <Icon as={EditIcon} w={5} h={5} />
-          </Button>
+          {isMyCard ? (
+            <Button
+              variant="ghost"
+              p={0}
+              borderWidth={2}
+              borderColor="gray.300"
+              onClick={handlOpenPopapEditeCard}
+            >
+              <Icon as={EditIcon} w={5} h={5} />
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              p={0}
+              borderWidth={2}
+              borderColor="gray.300"
+              onClick={handlOpenPopapEditeCard}
+              isDisabled
+            >
+              <Icon as={EditIcon} w={5} h={5} />
+            </Button>
+          )}
         </ButtonGroup>
       </CardHeader>
 

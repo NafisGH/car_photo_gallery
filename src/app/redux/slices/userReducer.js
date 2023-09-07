@@ -88,7 +88,6 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
-
     // signUp ------------------------------
     [signUp.pending]: (state, action) => {
       state.isLoading = true;
