@@ -3,6 +3,11 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
+const getHeaders = () => {
+  return {
+    authorization: localStorage.getItem("token"),
+  };
+};
 
 const getCards = createAsyncThunk(
   "photos/getCards",
@@ -11,9 +16,7 @@ const getCards = createAsyncThunk(
       const response = await axios.get(
         `${PRODUCTION_SERVER}/cards?pageSize=${pageSize}&page=${page}&title=${title}`,
         {
-          headers: {
-            authorization: JSON.parse(localStorage.getItem("user")).token,
-          },
+          headers: getHeaders(),
         }
       );
       return response.data;
@@ -31,9 +34,7 @@ const likeCard = createAsyncThunk(
         `${PRODUCTION_SERVER}/cards/${id}/likes`,
         {},
         {
-          headers: {
-            authorization: JSON.parse(localStorage.getItem("user")).token,
-          },
+          headers: getHeaders(),
         }
       );
       return response;
@@ -50,9 +51,7 @@ const dislikeCard = createAsyncThunk(
       const response = await axios.delete(
         `${PRODUCTION_SERVER}/cards/${id}/likes`,
         {
-          headers: {
-            authorization: JSON.parse(localStorage.getItem("user")).token,
-          },
+          headers: getHeaders(),
         }
       );
       return response;
@@ -68,9 +67,7 @@ const deleteCard = createAsyncThunk(
     try {
       const response = await axios.delete(`${PRODUCTION_SERVER}/cards/${id}`, {
         ownerId,
-        headers: {
-          authorization: JSON.parse(localStorage.getItem("user")).token,
-        },
+        headers: getHeaders(),
       });
       return id;
     } catch (error) {
@@ -91,9 +88,7 @@ const updateCard = createAsyncThunk(
           url,
         },
         {
-          headers: {
-            authorization: JSON.parse(localStorage.getItem("user")).token,
-          },
+          headers: getHeaders(),
         }
       );
       return response.data;
@@ -116,9 +111,7 @@ const createCard = createAsyncThunk(
           url,
         },
         {
-          headers: {
-            authorization: JSON.parse(localStorage.getItem("user")).token,
-          },
+          headers: getHeaders(),
         }
       );
       console.log("createCard");

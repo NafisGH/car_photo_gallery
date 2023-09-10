@@ -19,9 +19,9 @@ const PageSignIn = () => {
     setPassword(e.target.value);
   };
 
-  const handelSubmit = (e) => {
+  const handelSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signIn({ password, email }));
+    await dispatch(signIn({ password, email })).unwrap();
     navigate("/");
   };
 

@@ -2,9 +2,16 @@ import { selectDataUser } from "app/redux/slices/userReducer";
 import { Avatar, Box, Button, Text } from "@chakra-ui/react";
 import Modals from "pages/Modals/ui/Modals";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { email } = useSelector(selectDataUser);
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    navigate("/sign-in");
+    localStorage.removeItem("token");
+  };
 
   return (
     <Box
@@ -23,7 +30,7 @@ const Header = () => {
       </Text>
 
       <Modals />
-      <Button>Exit</Button>
+      <Button onClick={handleLogOut}>Exit</Button>
 
       <Box display={"flex"} alignItems={"center"}>
         <Box color={"white"}>{email}</Box>

@@ -9,6 +9,10 @@ const StyledPagination = styled.ul`
   position: absolute;
   margin-bottom: 60px;
 
+  &.active {
+    display: none;
+  }
+
   .btn-pagination {
     border: 1px solid black;
     border-radius: 10px;

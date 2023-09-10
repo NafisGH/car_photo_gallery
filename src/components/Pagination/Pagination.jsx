@@ -34,7 +34,7 @@ const Pagination = ({ page, setPage }) => {
   }, [page, pageCount, setPage]);
 
   return (
-    <StyledPagination className="pagination">
+    <StyledPagination className={pages.length === 1 ? "active" : "pagination"}>
       {page === 1 ? (
         <button
           disabled

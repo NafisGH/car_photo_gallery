@@ -1,12 +1,26 @@
+import { Center, Spinner } from "@chakra-ui/react";
+import { useAuth } from "hooks/useAutn";
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { isValid, isLoading } = useAuth();
 
-  if (!user) return <Navigate replace to="/sign-in" />;
+  if (isLoading)
+    return (
+      <Center minHeight={"100vh"} bgColor="silver">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+          mt="15%"
+        />
+      </Center>
+    );
 
-  return user.token ? <Outlet /> : <Navigate replace to="/sign-in" />;
+  return isValid ? <Outlet /> : <Navigate replace to="/sign-in" />;
 };
 
 export default ProtectedRoute;

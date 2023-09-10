@@ -4,22 +4,6 @@ import axios from "axios";
 // const LOCAL_SERVER = "http://localhost:9400";
 const PRODUCTION_SERVER = "https://testapp-server.vercel.app";
 
-const getDefaultDataUser = () => {
-  const saveData = JSON.parse(localStorage.getItem("user"));
-  if (saveData) {
-    const { name, email } = saveData;
-    return {
-      name,
-      email,
-    };
-  } else {
-    return {
-      name: "",
-      email: "",
-    };
-  }
-};
-
 const signIn = createAsyncThunk("user/signIn", async ({ password, email }) => {
   try {
     const response = await axios.post(`${PRODUCTION_SERVER}/signin`, {
@@ -27,17 +11,13 @@ const signIn = createAsyncThunk("user/signIn", async ({ password, email }) => {
       email,
     });
 
-    const { token, name: nameUser, email: emailUser } = response.data;
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        token: `Bearer ${token}`,
-        name: nameUser,
-        email: emailUser,
-      })
-    );
+    const { token, name } = response.data;
+    localStorage.setItem("token", "Bearer " + token);
 
-    return response.data;
+    return {
+      name,
+      email,
+    };
   } catch (error) {
     return "error signIn";
   }
@@ -59,8 +39,28 @@ const signUp = createAsyncThunk(
   }
 );
 
+// export const checkToken = createAsyncThunk("user/checkToken", async (token) => {
+//   try {
+//     const response = await axios.get(
+//       "https://testapp-server.vercel.app/token",
+//       {
+//         headers: {
+//           authorization: token,
+//         },
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     localStorage.removeItem("token")
+//     return "error check token";
+//   }
+// });
+
 const initialState = {
-  data: getDefaultDataUser(),
+  data: {
+    name: "",
+    email: "",
+  },
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -69,20 +69,23 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setUserData: (state, action) => {
+      state.data = action.payload;
+    },
+    clearUserData: (state, action) => {
+      state.data = initialState.data;
+    },
+  },
   extraReducers: {
     // signIn ------------------------------
     [signIn.pending]: (state, action) => {
       state.isLoading = true;
     },
     [signIn.fulfilled]: (state, action) => {
-      const { email, name } = action.payload;
       state.isLoading = false;
       state.isSuccess = true;
-      state.data = {
-        name,
-        email,
-      };
+      state.data = action.payload;
     },
     [signIn.rejected]: (state, action) => {
       state.isLoading = false;
@@ -100,10 +103,13 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
+    // [checkToken.fulfilled]: (state, action) => {
+    //   state.data = action.payload;
+    // },
   },
 });
 
-export const {} = userSlice.actions;
+export const { setUserData, clearUserData } = userSlice.actions;
 
 export { signIn, signUp };
 

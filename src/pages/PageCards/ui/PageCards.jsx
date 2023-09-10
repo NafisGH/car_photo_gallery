@@ -109,15 +109,16 @@ const PageCards = () => {
           pt={"150px"}
           pb={100}
         >
-          {cardsFromServer.map((data) => {
-            return (
-              <MyCard
-                key={data.id}
-                data={data}
-                onOpenEditPopap={hanleOpenEditPopap}
-              />
-            );
-          })}
+          {cardsFromServer &&
+            cardsFromServer.map((data) => {
+              return (
+                <MyCard
+                  key={data.id}
+                  data={data}
+                  onOpenEditPopap={hanleOpenEditPopap}
+                />
+              );
+            })}
 
           <UpdateCardModal
             isOpen={openEditPopap}
