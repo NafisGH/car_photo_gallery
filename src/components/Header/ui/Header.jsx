@@ -1,8 +1,8 @@
 import { selectDataUser } from "app/redux/slices/userReducer";
 import { Avatar, Box, Button, Text } from "@chakra-ui/react";
-import Modals from "pages/Modals/ui/Modals";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Modals from "pages/Modals/ui/Modals";
 
 const Header = () => {
   const { email } = useSelector(selectDataUser);
@@ -26,19 +26,18 @@ const Header = () => {
       zIndex={"10"}
     >
       <Text ml="10px" color="white" fontSize="30px">
-        Project App
+        Project car photo gallery
       </Text>
 
-      <Modals />
-      <Button onClick={handleLogOut}>Exit</Button>
-
       <Box display={"flex"} alignItems={"center"}>
+        <Modals />
         <Box color={"white"}>{email}</Box>
         <Avatar
           src="https://bit.ly/broken-link"
           m={3}
           _hover={{ cursor: "pointer" }}
         />
+        <Button onClick={handleLogOut}>Exit</Button>
       </Box>
     </Box>
   );

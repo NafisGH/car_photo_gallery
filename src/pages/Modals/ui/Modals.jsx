@@ -1,15 +1,13 @@
-import React from 'react'
-import {
-    Box,
-} from "@chakra-ui/react"
-import CreateCardModal from '../CreateCardModal/CreateCardModal'
+import React from "react";
+import { Box } from "@chakra-ui/react";
+import CreateCardModal from "../CreateCardModal/CreateCardModal";
 
 const Modals = () => {
   return (
-    <Box>
-        <CreateCardModal/>
+    <Box mr={"10px"}>
+      <CreateCardModal />
     </Box>
-  )
-}
+  );
+};
 
-export default Modals
+export default Modals;
