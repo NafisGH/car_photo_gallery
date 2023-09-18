@@ -1,10 +1,16 @@
 import React, { useEffect, useMemo } from "react";
 import StyledPagination from "./StyledPagination";
 import { useSelector } from "react-redux";
-import { selectPageCount } from "app/redux/slices/photoReducer";
+import {
+  selectIsLoading,
+  selectPageCount,
+} from "app/redux/slices/photoReducer";
 
 const Pagination = ({ page, setPage }) => {
   const pageCount = useSelector(selectPageCount);
+  const isLoading = useSelector(selectIsLoading);
+  console.log("page", page);
+  console.log("pageCount", pageCount);
 
   const handleClickBtnNextPage = () => {
     setPage((page += 1));
@@ -34,7 +40,9 @@ const Pagination = ({ page, setPage }) => {
   }, [page, pageCount, setPage]);
 
   return (
-    <StyledPagination className={pages.length === 1 ? "active" : "pagination"}>
+    <StyledPagination
+      className={pages.length === 1 ? "active_none" : "pagination"}
+    >
       {page === 1 ? (
         <button
           disabled
@@ -52,11 +60,11 @@ const Pagination = ({ page, setPage }) => {
         </button>
       )}
 
-      {pages.map((value, index) => (
+      {pages.map((value) => (
         <li
-          className={page === index + 1 ? "active" : ""}
-          key={index}
-          onClick={() => setPage(index + 1)}
+          className={page === value ? "active" : ""}
+          key={value}
+          onClick={() => setPage(value)}
         >
           {value}
         </li>

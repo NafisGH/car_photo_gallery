@@ -19,7 +19,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createCard,
   getCards,
+  selectData,
   selectPage,
+  selectPageCount,
+  setPage,
 } from "app/redux/slices/photoReducer";
 
 const CreateCardModal = () => {
@@ -54,7 +57,9 @@ const CreateCardModal = () => {
     setUrl("");
   };
 
-  const page = useSelector(selectPage);
+  const cards = useSelector(selectData); // Массив одной страницы, количество карточек на странице
+  const page = useSelector(selectPage); // Активная выбранная страница
+  const pageCount = useSelector(selectPageCount); //
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
@@ -62,7 +67,14 @@ const CreateCardModal = () => {
     await dispatch(
       createCard({ ownerId: 2, title, description, url })
     ).unwrap();
-    await dispatch(getCards({ page, pageSize: 5 })).unwrap();
+
+    if (cards.length > 4) {
+      await dispatch(getCards({ page: pageCount + 1, pageSize: 5 })).unwrap();
+    } else {
+      await dispatch(getCards({ page, pageSize: 5 })).unwrap();
+    }
+
+    // await dispatch(getCards({ page, pageSize: 5 })).unwrap();
     onClose();
     clearInputs();
   };

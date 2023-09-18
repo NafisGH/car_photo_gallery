@@ -9,7 +9,7 @@ const StyledPagination = styled.ul`
   position: absolute;
   margin-bottom: 60px;
 
-  &.active {
+  &.active_none {
     display: none;
   }
 
@@ -29,7 +29,7 @@ const StyledPagination = styled.ul`
     &.prev {
       margin-right: 20px;
       &.disabled {
-        opacity: 0.6;
+        opacity: 0.5;
         cursor: not-allowed;
       }
     }
@@ -37,11 +37,15 @@ const StyledPagination = styled.ul`
     &.next {
       margin-left: 20px;
       &.disabled {
-        opacity: 0.6;
+        opacity: 0.5;
         cursor: not-allowed;
       }
     }
   }
+
+  /* .test:disabled {
+    background-color: red;
+  } */
 
   li:not(:last-of-type) {
     margin-right: 15px;

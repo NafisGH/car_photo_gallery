@@ -135,7 +135,11 @@ const initialState = {
 export const photoSlice = createSlice({
   name: "photos",
   initialState,
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+  },
   extraReducers: {
     // likeCard ------------------------------
     [likeCard.pending]: (state, action) => {
@@ -252,12 +256,13 @@ export const photoSlice = createSlice({
   },
 });
 
-export const {} = photoSlice.actions;
+export const { setPage } = photoSlice.actions;
 
 export { getCards, deleteCard, updateCard, createCard, likeCard, dislikeCard };
 
 export const selectPageCount = (state) => state.photos.pageCount;
 export const selectPage = (state) => state.photos.page;
 export const selectIsLoading = (state) => state.photos.isLoading;
+export const selectData = (state) => state.photos.data;
 
 export default photoSlice.reducer;

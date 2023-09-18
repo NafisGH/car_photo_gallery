@@ -3,7 +3,12 @@ import { MyCard } from "./Card";
 
 import { Box, Button, Center, Input, Spinner } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCards, selectIsLoading } from "app/redux/slices/photoReducer";
+import {
+  getCards,
+  selectIsLoading,
+  selectPage,
+  setPage,
+} from "app/redux/slices/photoReducer";
 import UpdateCardModal from "pages/Modals/UpdateCardModal/UpdateCardModal";
 import Pagination from "components/Pagination/Pagination";
 
@@ -11,7 +16,6 @@ const PageCards = () => {
   const cardsFromServer = useSelector((state) => state.photos.data);
   const isLoading = useSelector(selectIsLoading);
 
-  const [page, setPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [openEditPopap, setOpenEditPopap] = useState(false);
   const [title, setTitle] = useState("");
@@ -21,6 +25,7 @@ const PageCards = () => {
 
   const dispatch = useDispatch();
 
+  const page = useSelector(selectPage);
   const handleChangeTitle = (e) => setTitle(e.target.value);
   const handleChangeDescription = (e) => setDescription(e.target.value);
   const handleChangeUrl = (e) => setUrl(e.target.value);
@@ -34,6 +39,8 @@ const PageCards = () => {
     setUrl(url);
     setId(id);
   };
+
+  const changePage = (page) => dispatch(setPage(page));
 
   const handleSearch = () => {
     dispatch(getCards({ page, pageSize: 5, title: searchValue }));
@@ -135,7 +142,7 @@ const PageCards = () => {
       )}
 
       <Center>
-        <Pagination page={page} setPage={setPage} />
+        <Pagination page={page} setPage={changePage} />
       </Center>
     </Box>
   );
