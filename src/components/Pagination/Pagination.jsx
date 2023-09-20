@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo } from "react";
-import StyledPagination from "./StyledPagination";
 import { useSelector } from "react-redux";
 import {
   selectIsLoading,
   selectPageCount,
 } from "app/redux/slices/photoReducer";
+import StyledPagination from "./StyledPagination";
+import classNames from "classnames";
 
 const Pagination = ({ page, setPage }) => {
   const pageCount = useSelector(selectPageCount);
@@ -39,52 +40,49 @@ const Pagination = ({ page, setPage }) => {
     }
   }, [page, pageCount, setPage]);
 
+  const handleClickPage = (value) => {
+    if (isLoading === true) {
+      return;
+    }
+    setPage(value);
+  };
+
   return (
     <StyledPagination
       className={pages.length === 1 ? "active_none" : "pagination"}
     >
-      {page === 1 ? (
+      {
         <button
-          disabled
-          className="btn-pagination prev disabled"
+          className={classNames("btn-pagination prev", {
+            disabled: isLoading || page === 1,
+          })}
           onClick={() => handleClickBtnPrevtPage()}
+          disabled={isLoading || page === 1}
         >
           PREVIOUS
         </button>
-      ) : (
-        <button
-          className="btn-pagination prev"
-          onClick={() => handleClickBtnPrevtPage()}
-        >
-          PREVIOUS
-        </button>
-      )}
+      }
 
       {pages.map((value) => (
         <li
           className={page === value ? "active" : ""}
           key={value}
-          onClick={() => setPage(value)}
+          onClick={() => handleClickPage(value)}
         >
           {value}
         </li>
       ))}
-      {page === pageCount ? (
+      {
         <button
-          disabled
-          className="btn-pagination next disabled"
+          className={classNames("btn-pagination next", {
+            disabled: isLoading || page === pageCount,
+          })}
           onClick={() => handleClickBtnNextPage()}
+          disabled={isLoading || page === pageCount}
         >
           NEXT
         </button>
-      ) : (
-        <button
-          className="btn-pagination next"
-          onClick={() => handleClickBtnNextPage()}
-        >
-          NEXT
-        </button>
-      )}
+      }
     </StyledPagination>
   );
 };

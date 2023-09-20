@@ -52,7 +52,7 @@ const PageCards = () => {
   };
 
   useEffect(() => {
-    dispatch(getCards({ page, pageSize: 5 }));
+    dispatch(getCards({ page, pageSize: 5, title: searchValue }));
   }, [dispatch, page]);
 
   return (
