@@ -1,4 +1,4 @@
-# Test-App
+# car photo gallery
  Это приложение для создания карточек с автором изображения, демонстрации своих работ
 
 [Ссылка на проект](https://github.com/NafisGH/car_photo_gallery)
