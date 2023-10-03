@@ -43,10 +43,6 @@ const StyledPagination = styled.ul`
     }
   }
 
-  /* .test:disabled {
-    background-color: red;
-  } */
-
   li:not(:last-of-type) {
     margin-right: 15px;
   }

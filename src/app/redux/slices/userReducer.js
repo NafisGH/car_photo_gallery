@@ -39,23 +39,6 @@ const signUp = createAsyncThunk(
   }
 );
 
-// export const checkToken = createAsyncThunk("user/checkToken", async (token) => {
-//   try {
-//     const response = await axios.get(
-//       "https://testapp-server.vercel.app/token",
-//       {
-//         headers: {
-//           authorization: token,
-//         },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     localStorage.removeItem("token")
-//     return "error check token";
-//   }
-// });
-
 const initialState = {
   data: {
     name: "",
@@ -103,9 +86,6 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
-    // [checkToken.fulfilled]: (state, action) => {
-    //   state.data = action.payload;
-    // },
   },
 });
 

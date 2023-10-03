@@ -142,9 +142,7 @@ export const photoSlice = createSlice({
   },
   extraReducers: {
     // likeCard ------------------------------
-    [likeCard.pending]: (state, action) => {
-      // state.isLoading = true;
-    },
+    [likeCard.pending]: (state, action) => {},
     [likeCard.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
@@ -167,9 +165,7 @@ export const photoSlice = createSlice({
     },
 
     // dislikeCard ------------------------------
-    [dislikeCard.pending]: (state, action) => {
-      // state.isLoading = true;
-    },
+    [dislikeCard.pending]: (state, action) => {},
     [dislikeCard.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;

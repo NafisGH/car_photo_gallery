@@ -53,6 +53,7 @@ const PageSignIn = () => {
             w="400px"
             mt="20px"
             onClick={handelSubmit}
+            isDisabled={!email || !password}
           >
             Sign in
           </Button>

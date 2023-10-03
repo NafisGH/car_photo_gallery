@@ -76,28 +76,16 @@ const PageSignUp = () => {
             />
           </FormControl>
 
-          {isEmail && !isError ? (
-            <Button
-              colorScheme="blue"
-              size="lg"
-              w="400px"
-              mt="20px"
-              onClick={handleSignUp}
-            >
-              Sign up
-            </Button>
-          ) : (
-            <Button
-              colorScheme="blue"
-              size="lg"
-              w="400px"
-              mt="20px"
-              onClick={handleSignUp}
-              isDisabled
-            >
-              Sign up
-            </Button>
-          )}
+          <Button
+            colorScheme="blue"
+            size="lg"
+            w="400px"
+            mt="20px"
+            onClick={handleSignUp}
+            isDisabled={!isEmail && isError}
+          >
+            Sign up
+          </Button>
 
           <Box mt="20px" display="flex" justifyContent="end" w="400px">
             <Button
