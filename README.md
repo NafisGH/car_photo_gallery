@@ -35,4 +35,3 @@ Install the dependencies and devDependencies and start the server.
 npm i
 npm run start
 ```
-http://localhost:3000
