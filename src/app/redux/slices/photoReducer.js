@@ -48,12 +48,9 @@ const dislikeCard = createAsyncThunk(
   "photos/dislikeCard",
   async ({ id }, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(
-        `${PRODUCTION_SERVER}/cards/${id}/likes`,
-        {
-          headers: getHeaders(),
-        }
-      );
+      const response = await axios.delete(`${PRODUCTION_SERVER}/cards/${id}/likes`, {
+        headers: getHeaders(),
+      });
       return response;
     } catch (error) {
       return rejectWithValue();
@@ -114,7 +111,7 @@ const createCard = createAsyncThunk(
           headers: getHeaders(),
         }
       );
-      console.log("createCard");
+
       return response.data;
     } catch (error) {
       return rejectWithValue();
@@ -148,9 +145,7 @@ export const photoSlice = createSlice({
       state.isSuccess = true;
       const res = action.payload.data;
 
-      const indexLikedCard = state.data.findIndex(
-        (card) => card.id === res[0].id
-      );
+      const indexLikedCard = state.data.findIndex((card) => card.id === res[0].id);
       if (indexLikedCard !== -1) {
         state.data = [
           ...state.data.slice(0, indexLikedCard),
@@ -170,9 +165,7 @@ export const photoSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = true;
       const res = action.payload.data;
-      const indexDislikeCard = state.data.findIndex(
-        (card) => card.id === res[0].id
-      );
+      const indexDislikeCard = state.data.findIndex((card) => card.id === res[0].id);
       if (indexDislikeCard !== -1) {
         state.data = [
           ...state.data.slice(0, indexDislikeCard),

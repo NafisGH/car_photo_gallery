@@ -1,5 +1,6 @@
 import styled from "styled-components";
 const StyledPagination = styled.ul`
+  overflow: hidden;
   list-style: none;
   padding: 5px 0px;
   background-color: gray;

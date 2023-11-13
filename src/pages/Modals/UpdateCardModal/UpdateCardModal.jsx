@@ -1,96 +1,100 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateCard } from "app/redux/slices/photoReducer";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-} from "@chakra-ui/react";
+
+import "./updateCardModal.scss";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import "./updateCardModal.scss";
 
 const UpdateCardModal = ({
-  onCloseEditPopap,
-  isOpen,
-  title,
-  description,
-  url,
-  id,
-  handleChangeUrl,
-  handleChangeTitle,
-  handleChangeDescription,
+  // title,
+  // description,
+  // url,
+  // id,
+  // handleChangeUrl,
+  // handleChangeTitle,
+  // handleChangeDescription,
+  active,
+  setActive,
 }) => {
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
-
+  const { title, description, url, id } = active.data;
   const dispach = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispach(updateCard({ id, title, description, url }));
-    onCloseEditPopap();
+    dispach(
+      updateCard({
+        id: inputId,
+        title: inputTitle,
+        description: inputDescription,
+        url: inputUrl,
+      })
+    );
+    setActive(false);
   };
 
+  const closeModalUpdate = () => {
+    setActive(false);
+  };
+
+  const [inputTitle, setInputTitle] = useState(title);
+  const [inputDescription, setInputDescription] = useState(description);
+  const [inputUrl, setInputUrl] = useState(url);
+  const [inputId, setInputId] = useState(id);
+
+  const handleChangeTitle = (e) => setInputTitle(e.target.value);
+  const handleChangeDescription = (e) => setInputDescription(e.target.value);
+  const handleChangeUrl = (e) => setInputUrl(e.target.value);
+
+  useEffect(() => {
+    setInputTitle(title);
+  }, [title]);
+
+  useEffect(() => {
+    setInputDescription(description);
+  }, [description]);
+
+  useEffect(() => {
+    setInputUrl(url);
+  }, [url]);
   return (
     <>
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onCloseEditPopap}
-      >
-        <ModalOverlay />
-        <ModalContent mt={"20%"}>
-          <ModalHeader>Update card</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Title</FormLabel>
-              <Input
-                ref={initialRef}
-                placeholder="Card name"
-                value={title}
-                onChange={handleChangeTitle}
-              />
-            </FormControl>
+      <h2 className="modal__update_header">Update card</h2>
+      <AiOutlineCloseCircle
+        className="modal__update_close"
+        onClick={() => closeModalUpdate()}
+      />
+      <div className="modal__update_body">
+        <input
+          className="input__update"
+          placeholder="Card name"
+          value={inputTitle}
+          onChange={handleChangeTitle}
+        />
+        <input
+          className="input__update"
+          placeholder="description"
+          value={setInputDescription}
+          onChange={handleChangeDescription}
+        />
+        <input
+          className="input__update"
+          placeholder="url"
+          value={setInputUrl}
+          onChange={handleChangeUrl}
+        />
+      </div>
+      <div className="modal__footer">
+        <button className="modal__btn_update" onClick={handleSubmit}>
+          Update
+        </button>
 
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Input
-                ref={initialRef}
-                placeholder="Description"
-                value={description}
-                onChange={handleChangeDescription}
-              />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>URL</FormLabel>
-              <Input
-                placeholder="url pictures"
-                value={url}
-                onChange={handleChangeUrl}
-              />
-            </FormControl>
-          </ModalBody>
-
-          <ModalFooter display="flex" justifyContent="space-around">
-            <Button onClick={onCloseEditPopap} w="150px">
-              Cancel
-            </Button>
-            <Button w="150px" onClick={handleSubmit}>
-              Update
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+        <button className="modal__btn_cancel" onClick={() => closeModalUpdate()}>
+          Cancel
+        </button>
+      </div>
     </>
+    //
   );
 };
 

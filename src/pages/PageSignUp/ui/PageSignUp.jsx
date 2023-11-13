@@ -1,11 +1,4 @@
-import {
-  Box,
-  Center,
-  Text,
-  Input,
-  Button,
-  FormControl,
-} from "@chakra-ui/react";
+import { Box, Center, Text, Input, Button, FormControl } from "@chakra-ui/react";
 import { signUp } from "app/redux/slices/userReducer";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -31,9 +24,8 @@ const PageSignUp = () => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    dispach(signUp({ userName, password, email }));
+    dispach(signUp({ name: userName, password, email }));
     navigate("/sign-in");
-    console.log("handleSignUp");
   };
 
   const regExpEmail = /^(.+)@(.+)\.(.+)$/;

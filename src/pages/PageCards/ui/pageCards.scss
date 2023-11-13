@@ -1,0 +1,80 @@
+%btn-style {
+  width: 80px;
+  height: 40px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  margin-top: 80px;
+  position: absolute;
+}
+.pageCards {
+  .searchCard {
+    input {
+      width: 800px;
+      height: 40px;
+      position: absolute;
+      margin-top: 80px;
+      margin-left: 20px;
+      background-color: whitesmoke;
+      border-radius: 10px;
+      padding: 5px;
+
+      @media screen and (max-width: 768px) {
+        width: 500px;
+      }
+      @media screen and (max-width: 320px) {
+        width: 200px;
+        margin-left: 10px;
+      }
+    }
+    .btnSearch {
+      @extend %btn-style;
+      margin-left: 830px;
+      @media screen and (max-width: 768px) {
+        margin-left: 530px;
+      }
+      @media screen and (max-width: 320px) {
+        margin-left: 230px;
+      }
+    }
+  }
+
+  .pageCards {
+    display: grid;
+    padding: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    background-color: silver;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    padding-top: 150px;
+    padding-bottom: 100px;
+  }
+
+  .spinner {
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: silver;
+    .loader {
+      width: 88px;
+      height: 88px;
+      border: 5px solid #fff;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+      margin: 30% 45%;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}

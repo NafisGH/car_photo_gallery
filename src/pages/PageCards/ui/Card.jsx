@@ -1,20 +1,8 @@
-import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Text,
-  Box,
-  Image,
-  Heading,
-  ButtonGroup,
-  Button,
-  Icon,
-} from "@chakra-ui/react";
+import React, { useState } from "react";
 
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import "./card.scss";
+
+import { BsHeartFill, BsHeart } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteCard,
@@ -24,6 +12,10 @@ import {
   selectPage,
 } from "app/redux/slices/photoReducer";
 import { selectDataUser } from "app/redux/slices/userReducer";
+import { BsFillTrashFill } from "react-icons/bs";
+import { AiFillEdit } from "react-icons/ai";
+import Modal from "pages/Modals/ui/Modal";
+import UpdateCardModal from "pages/Modals/UpdateCardModal/UpdateCardModal";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
   const { email, name } = useSelector(selectDataUser);
@@ -69,100 +61,50 @@ export const MyCard = ({ data, onOpenEditPopap }) => {
   };
 
   return (
-    <Card maxW="350px" borderRadius={10} maxH="550px">
-      <CardHeader display="flex" justifyContent="flex-end" pb={5}>
-        <ButtonGroup spacing={1}>
+    <div className="card">
+      <div className="cardHeader">
+        <div className="btnHeader">
           {isMyCard ? (
-            <Button
-              variant="ghost"
-              p={0}
-              borderWidth={2}
-              borderColor="gray.300"
+            <BsFillTrashFill
+              className="btnTrash"
               onClick={handelDeleteCard}
-            >
-              <Icon as={DeleteIcon} w={5} h={5} />
-            </Button>
+            ></BsFillTrashFill>
           ) : (
-            <Button
-              variant="ghost"
-              p={0}
-              borderWidth={2}
-              borderColor="gray.300"
-              onClick={handelDeleteCard}
-              isDisabled
-            >
-              <Icon as={DeleteIcon} w={5} h={5} />
-            </Button>
+            <BsFillTrashFill className="btnTrash disabled"></BsFillTrashFill>
           )}
 
           {isMyCard ? (
-            <Button
-              variant="ghost"
-              p={0}
-              borderWidth={2}
-              borderColor="gray.300"
+            <AiFillEdit
+              className="btnEdit"
               onClick={handlOpenPopapEditeCard}
-            >
-              <Icon as={EditIcon} w={5} h={5} />
-            </Button>
+            ></AiFillEdit>
           ) : (
-            <Button
-              variant="ghost"
-              p={0}
-              borderWidth={2}
-              borderColor="gray.300"
-              onClick={handlOpenPopapEditeCard}
-              isDisabled
-            >
-              <Icon as={EditIcon} w={5} h={5} />
-            </Button>
+            <AiFillEdit className="btnEdit disabled"></AiFillEdit>
           )}
-        </ButtonGroup>
-      </CardHeader>
+        </div>
+      </div>
 
-      <CardBody padding="0 20px 0">
-        <Heading size="md" mb={2}>
-          Title: {data.title}
-        </Heading>
-        <Heading size="md" mb={2}>
-          Author: {data.author}
-        </Heading>
-        <Image
-          src={data.url}
-          cursor="pointer"
-          objectFit="cover"
-          h="220px"
-          w="100%"
-        />
-        <Text mt={2}>{data.description}</Text>
-      </CardBody>
+      <div className="cardBody" padding="0 20px 0">
+        <h2>Title: {data.title}</h2>
+        <h2>Author: {data.author}</h2>
+        <img src={data.url} alt="foto" />
+        <h2>description: {data.description}</h2>
+      </div>
 
-      <CardFooter display="flex" flexDirection="column">
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-        >
-          <ButtonGroup spacing={1}>
-            <Button
-              variant="ghost"
-              p={0}
-              borderWidth={2}
-              borderColor="gray.300"
-              onClick={handleLikeCard}
-            >
-              {data.likes && data.likes.includes(email) ? (
-                <Icon as={AiFillHeart} fill="red" w={5} h={5} />
-              ) : (
-                <Icon as={AiOutlineHeart} w={5} h={5} />
-              )}
-            </Button>
-          </ButtonGroup>
-          <Text>{handleGetCorrectDate(data)}</Text>
-        </Box>
-        <Text>{data.likes ? data.likes.length : 0} likes</Text>
-      </CardFooter>
-    </Card>
+      <div className="cardFooter">
+        <div>
+          <button className="btnLike" onClick={handleLikeCard}>
+            {data.likes && data.likes.includes(email) ? (
+              <BsHeartFill size="20px" />
+            ) : (
+              <BsHeart size="20px" />
+            )}
+          </button>
+
+          <span>{handleGetCorrectDate(data)}</span>
+        </div>
+        <span>{data.likes ? data.likes.length : 0} likes</span>
+      </div>
+    </div>
   );
 };

@@ -1,8 +1,11 @@
 import { selectDataUser } from "app/redux/slices/userReducer";
-import { Avatar, Box, Button, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Modals from "pages/Modals/ui/Modals";
+import "./header.scss";
+import { RxAvatar } from "react-icons/rx";
+import Modal from "pages/Modals/ui/Modal";
+import { useState } from "react";
+import CreateCardModal from "pages/Modals/CreateCardModal/CreateCardModal";
 
 const Header = () => {
   const { email } = useSelector(selectDataUser);
@@ -13,33 +16,31 @@ const Header = () => {
     localStorage.removeItem("token");
   };
 
-  return (
-    <Box
-      w="100%"
-      bg="rgb(40, 40, 40)"
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      pl={"30px"}
-      pr={"30px"}
-      position={"fixed"}
-      zIndex={"10"}
-    >
-      <Text ml="10px" color="white" fontSize="30px">
-        Project car photo gallery
-      </Text>
+  const [modalActive, setModalActive] = useState(false);
 
-      <Box display={"flex"} alignItems={"center"}>
-        <Modals />
-        <Box color={"white"}>{email}</Box>
-        <Avatar
-          src="https://bit.ly/broken-link"
-          m={3}
-          _hover={{ cursor: "pointer" }}
-        />
-        <Button onClick={handleLogOut}>Exit</Button>
-      </Box>
-    </Box>
+  return (
+    <div className="header">
+      <span className="nameProject">Photo gallery</span>
+
+      <div className="header__user">
+        <button className="createCard" onClick={() => setModalActive(true)}>
+          Создать карточку
+        </button>
+
+        <Modal active={modalActive} setActive={setModalActive}>
+          <CreateCardModal
+            active={modalActive}
+            setActive={setModalActive}
+          ></CreateCardModal>
+        </Modal>
+        <span className="email">{email}</span>
+
+        <RxAvatar className="avatar" />
+        <button className="btnExit" onClick={handleLogOut}>
+          Exit
+        </button>
+      </div>
+    </div>
   );
 };
 

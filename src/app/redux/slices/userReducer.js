@@ -23,21 +23,18 @@ const signIn = createAsyncThunk("user/signIn", async ({ password, email }) => {
   }
 });
 
-const signUp = createAsyncThunk(
-  "user/signUp",
-  async ({ userName, password, email }) => {
-    try {
-      const response = await axios.post(`${PRODUCTION_SERVER}/signup`, {
-        userName,
-        password,
-        email,
-      });
-      return response.data;
-    } catch (error) {
-      return "error signUp";
-    }
+const signUp = createAsyncThunk("user/signUp", async ({ name, password, email }) => {
+  try {
+    const response = await axios.post(`${PRODUCTION_SERVER}/signup`, {
+      name,
+      password,
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    return "error signUp";
   }
-);
+});
 
 const initialState = {
   data: {

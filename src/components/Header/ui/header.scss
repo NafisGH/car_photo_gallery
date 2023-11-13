@@ -1,0 +1,51 @@
+.header {
+  width: 100%;
+  height: 80px;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  @media screen and (max-width: 320px) {
+    padding: 0 5px;
+  }
+
+  .nameProject {
+    margin-left: 10px;
+    color: white;
+    font-size: 30px;
+    @media screen and (max-width: 320px) {
+      font-size: 15px;
+    }
+  }
+
+  .header__user {
+    display: flex;
+    align-items: center;
+
+    .createCard {
+      background-color: #fff;
+      margin-right: 10px;
+      font-size: 20px;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .btnExit {
+      background-color: #fff;
+      font-size: 20px;
+      border-radius: 5px;
+      padding: 5px;
+    }
+  }
+  .email {
+    color: white;
+    font-size: 25px;
+  }
+  .avatar {
+    background-color: #fff;
+    font-size: 40px;
+    margin-right: 20px;
+    margin-left: 5px;
+    border-radius: 5px;
+  }
+}

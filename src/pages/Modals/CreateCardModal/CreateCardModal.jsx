@@ -1,20 +1,5 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  useDisclosure,
-  FormErrorMessage,
-} from "@chakra-ui/react";
-
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createCard,
@@ -22,14 +7,14 @@ import {
   selectData,
   selectPage,
   selectPageCount,
-  setPage,
 } from "app/redux/slices/photoReducer";
+import "./createCardModal.scss";
+import "../modals.scss";
 
-const CreateCardModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
+const CreateCardModal = ({ active, setActive }) => {
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  // const initialRef = React.useRef(null);
+  // const finalRef = React.useRef(null);
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
@@ -64,9 +49,7 @@ const CreateCardModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(
-      createCard({ ownerId: 2, title, description, url })
-    ).unwrap();
+    await dispatch(createCard({ ownerId: 2, title, description, url })).unwrap();
 
     if (cards.length > 4) {
       await dispatch(getCards({ page: pageCount + 1, pageSize: 5 })).unwrap();
@@ -74,92 +57,54 @@ const CreateCardModal = () => {
       await dispatch(getCards({ page, pageSize: 5 })).unwrap();
     }
 
-    // await dispatch(getCards({ page, pageSize: 5 })).unwrap();
-    onClose();
+    setActive(false);
     clearInputs();
   };
 
   const handelCancelCreatemodal = () => {
-    onClose();
     clearInputs();
+    setActive(false);
   };
 
   return (
     <>
-      <Button onClick={onOpen}>Create new card</Button>
-
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent mt={"20%"}>
-          <ModalHeader>Create your new card</ModalHeader>
-          <ModalCloseButton onClick={() => clearInputs()} />
-          <ModalBody pb={6}>
-            <FormControl isInvalid={isError}>
-              <FormLabel>Title</FormLabel>
-              <Input
-                placeholder="name card"
-                ref={initialRef}
-                value={title}
-                onChange={handleChangeTitle}
-              />
-              {!isError ? (
-                ""
-              ) : (
-                <FormErrorMessage>Title is required.</FormErrorMessage>
-              )}
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Input
-                // ref={initialRef}
-                value={description}
-                onChange={handleChangeAuthor}
-              />
-            </FormControl>
-
-            <FormControl mt={4} isInvalid={isError}>
-              <FormLabel>URL</FormLabel>
-              <Input
-                placeholder="https://"
-                value={url}
-                onChange={handleChangeUrl}
-              />
-              {!isError ? (
-                ""
-              ) : (
-                <FormErrorMessage>url is required.</FormErrorMessage>
-              )}
-            </FormControl>
-          </ModalBody>
-
-          <ModalFooter display="flex" justifyContent="space-around">
-            <Button
-              onClick={handelCancelCreatemodal}
-              w="150px"
-              bgColor={"silver"}
-              _hover={{ bgColor: "gray" }}
-            >
-              Cancel
-            </Button>
-
-            {!isError && isRegExp ? (
-              <Button onClick={handleSubmit} w="150px" bgColor={"silver"}>
-                Create
-              </Button>
-            ) : (
-              <Button w="150px" bgColor={"silver"} isDisabled>
-                Create
-              </Button>
-            )}
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <h2 className="modal__create_header">Create your new card</h2>
+      <AiOutlineCloseCircle
+        className="modal__create_close"
+        onClick={() => handelCancelCreatemodal()}
+      />
+      <div className="modal__create_body">
+        <input
+          className={!isError ? "input_create" : "input_create error"}
+          placeholder="name card"
+          value={title}
+          onChange={handleChangeTitle}
+        />
+        <input
+          className={!isError ? "input_create" : "input_create error"}
+          placeholder="description"
+          value={description}
+          onChange={handleChangeAuthor}
+        />
+        <input
+          className={!isError ? "input_create" : "input_create error"}
+          placeholder="https://"
+          value={url}
+          onChange={handleChangeUrl}
+        />
+      </div>
+      <div className="modal__create_footer">
+        {!isError && isRegExp ? (
+          <button className="modal__btn_create" onClick={handleSubmit}>
+            Create
+          </button>
+        ) : (
+          <button className="modal__btn_create disabled">Create</button>
+        )}
+        <button className="modal__btn_cancel" onClick={() => handelCancelCreatemodal()}>
+          Cancel
+        </button>
+      </div>
     </>
   );
 };
