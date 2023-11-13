@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateCard } from "app/redux/slices/photoReducer";
-
 import "./updateCardModal.scss";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import "./updateCardModal.scss";
 
-const UpdateCardModal = ({
-  // title,
-  // description,
-  // url,
-  // id,
-  // handleChangeUrl,
-  // handleChangeTitle,
-  // handleChangeDescription,
-  active,
-  setActive,
-}) => {
+const UpdateCardModal = ({ active, setActive }) => {
   const { title, description, url, id } = active.data;
   const dispach = useDispatch();
 
@@ -74,13 +63,13 @@ const UpdateCardModal = ({
         <input
           className="input__update"
           placeholder="description"
-          value={setInputDescription}
+          value={inputDescription}
           onChange={handleChangeDescription}
         />
         <input
           className="input__update"
           placeholder="url"
-          value={setInputUrl}
+          value={inputUrl}
           onChange={handleChangeUrl}
         />
       </div>
