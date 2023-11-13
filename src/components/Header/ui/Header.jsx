@@ -33,6 +33,7 @@ const Header = () => {
             setActive={setModalActive}
           ></CreateCardModal>
         </Modal>
+
         <span className="email">{email}</span>
 
         <RxAvatar className="avatar" />

@@ -24,6 +24,9 @@
   width: 50vw;
   transform: scale(0.5);
   transition: 0.4s all;
+  @media screen and (max-width: 320px) {
+    width: 75vw;
+  }
 }
 .modal__content.active {
   transform: scale(1);

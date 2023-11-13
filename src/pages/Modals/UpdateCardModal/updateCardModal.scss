@@ -21,6 +21,9 @@
     padding: 5px;
     width: 40vw;
     margin-top: 10px;
+    @media screen and (max-width: 320px) {
+      width: 60vw;
+    }
   }
 
   .input__update.error {
@@ -37,16 +40,26 @@
   display: flex;
   justify-content: space-between;
   margin: 20px 25px;
-  .modal__btn_create {
+  @media screen and (max-width: 320px) {
+    margin: 20px 0px;
+  }
+
+  .modal__btn_update {
     @extend %btn-style;
+    @media screen and (max-width: 320px) {
+      width: 70px;
+    }
   }
-  .modal__btn_create.disabled {
-    opacity: 0.4;
-  }
-  .modal__btn_create:hover {
+
+  .modal__btn_update:hover,
+  .modal__btn_cancel:hover {
     opacity: 0.5;
   }
+
   .modal__btn_cancel {
     @extend %btn-style;
+    @media screen and (max-width: 320px) {
+      width: 60px;
+    }
   }
 }

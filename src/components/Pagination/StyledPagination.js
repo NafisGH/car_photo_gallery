@@ -22,6 +22,10 @@ const StyledPagination = styled.ul`
     width: 120px;
     background-color: white;
     cursor: pointer;
+    @media screen and (max-width: 320px) {
+      width: 100px;
+      font-size: 12px;
+    }
 
     &:hover {
       background-color: silver;
@@ -29,6 +33,9 @@ const StyledPagination = styled.ul`
 
     &.prev {
       margin-right: 20px;
+      @media screen and (max-width: 320px) {
+        margin-right: 10px;
+      }
       &.disabled {
         opacity: 0.5;
         cursor: not-allowed;
@@ -37,6 +44,9 @@ const StyledPagination = styled.ul`
 
     &.next {
       margin-left: 20px;
+      @media screen and (max-width: 320px) {
+        margin-left: 10px;
+      }
       &.disabled {
         opacity: 0.5;
         cursor: not-allowed;
@@ -46,6 +56,9 @@ const StyledPagination = styled.ul`
 
   li:not(:last-of-type) {
     margin-right: 15px;
+    @media screen and (max-width: 320px) {
+      margin-right: 10px;
+    }
   }
 
   li {
@@ -60,6 +73,11 @@ const StyledPagination = styled.ul`
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    @media screen and (max-width: 320px) {
+      max-width: 10px;
+      font-size: 14px;
+      padding: 5px 12px;
+    }
 
     &:hover {
       background-color: silver;
