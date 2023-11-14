@@ -8,7 +8,7 @@ const StyledPagination = styled.ul`
   display: flex;
   justify-content: center;
   position: absolute;
-  margin-bottom: 60px;
+  bottom: 0px;
 
   &.active_none {
     display: none;
