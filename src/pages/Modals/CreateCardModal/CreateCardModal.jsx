@@ -12,10 +12,6 @@ import "./createCardModal.scss";
 import "../modals.scss";
 
 const CreateCardModal = ({ active, setActive }) => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  // const initialRef = React.useRef(null);
-  // const finalRef = React.useRef(null);
-
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");

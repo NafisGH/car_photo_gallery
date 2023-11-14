@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-
+import React from "react";
 import "./card.scss";
-
 import { BsHeartFill, BsHeart } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,14 +12,10 @@ import {
 import { selectDataUser } from "app/redux/slices/userReducer";
 import { BsFillTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
-import Modal from "pages/Modals/ui/Modal";
-import UpdateCardModal from "pages/Modals/UpdateCardModal/UpdateCardModal";
 
 export const MyCard = ({ data, onOpenEditPopap }) => {
   const { email, name } = useSelector(selectDataUser);
-
   const isMyCard = name === data.author ? true : false;
-
   const handleGetCorrectDate = (data) => {
     let date = new Date(data.date);
     let day = date.getDate();

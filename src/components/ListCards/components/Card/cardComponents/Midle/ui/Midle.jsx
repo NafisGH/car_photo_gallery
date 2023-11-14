@@ -9,7 +9,6 @@ export const Midle = (objectCard) => {
   return (
     <StyledMidle>
       <div className="midle">
-        {/* <h3 className='title'>{ props.card.title }</h3> Без деструктуризации */}
         <h3 className="title">{title}</h3>
         <p className="author">{author}</p>
         <img src={url} alt="foto" />

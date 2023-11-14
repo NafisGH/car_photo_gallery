@@ -3,7 +3,7 @@
   height: 40px;
   background-color: whitesmoke;
   border-radius: 10px;
-  margin-top: 80px;
+  margin-top: 20px;
   position: absolute;
 }
 .pageCards {
@@ -12,7 +12,7 @@
       width: 800px;
       height: 40px;
       position: absolute;
-      margin-top: 80px;
+      margin-top: 20px;
       margin-left: 20px;
       background-color: whitesmoke;
       border-radius: 10px;
@@ -20,6 +20,10 @@
 
       @media screen and (max-width: 768px) {
         width: 500px;
+      }
+      @media screen and (max-width: 425px) {
+        width: 250px;
+        margin-left: 15px;
       }
       @media screen and (max-width: 320px) {
         width: 200px;
@@ -31,6 +35,9 @@
       margin-left: 830px;
       @media screen and (max-width: 768px) {
         margin-left: 530px;
+      }
+      @media screen and (max-width: 425px) {
+        margin-left: 280px;
       }
       @media screen and (max-width: 320px) {
         margin-left: 230px;
@@ -48,7 +55,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     min-height: 100vh;
-    padding-top: 150px;
+    padding-top: 80px;
     padding-bottom: 100px;
   }
 

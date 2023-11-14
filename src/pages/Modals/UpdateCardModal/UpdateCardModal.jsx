@@ -13,7 +13,7 @@ const UpdateCardModal = ({ active, setActive }) => {
     e.preventDefault();
     dispach(
       updateCard({
-        id: inputId,
+        id,
         title: inputTitle,
         description: inputDescription,
         url: inputUrl,
@@ -29,7 +29,6 @@ const UpdateCardModal = ({ active, setActive }) => {
   const [inputTitle, setInputTitle] = useState(title);
   const [inputDescription, setInputDescription] = useState(description);
   const [inputUrl, setInputUrl] = useState(url);
-  const [inputId, setInputId] = useState(id);
 
   const handleChangeTitle = (e) => setInputTitle(e.target.value);
   const handleChangeDescription = (e) => setInputDescription(e.target.value);
