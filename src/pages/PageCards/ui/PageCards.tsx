@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { MyCard } from "./Card";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCards,
+  selectData,
   selectIsLoading,
   selectPage,
   setPage,
@@ -12,22 +13,39 @@ import Pagination from "components/Pagination/Pagination";
 import "./pageCards.scss";
 import Modal from "pages/Modals/ui/Modal";
 
+import { DataCardsType } from "./Card";
+import { initialStateType } from "app/redux/slices/photoReducer";
+import { AnyAction } from "@reduxjs/toolkit";
+import { useAppDispatch } from "app/redux/store";
+
+interface DataPageCardsType {
+  author: string;
+  title: string;
+  description: string;
+  url: string;
+  ownerId: number;
+  id: number;
+}
+
 const PageCards = () => {
-  const cardsFromServer = useSelector((state) => state.photos.data);
+  const cardsFromServer = useSelector(selectData);
   const isLoading = useSelector(selectIsLoading);
 
   const [searchValue, setSearchValue] = useState("");
-  const [openEditPopap, setOpenEditPopap] = useState({ isOpen: false, data: {} });
+  const [openEditPopap, setOpenEditPopap] = useState({
+    isOpen: false,
+    data: {},
+  });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const page = useSelector(selectPage);
 
-  const hanleOpenEditPopap = (dataCard) => {
+  const hanleOpenEditPopap = (dataCard: DataPageCardsType) => {
     setOpenEditPopap({ isOpen: true, data: dataCard });
   };
 
-  const changePage = (page) => dispatch(setPage(page));
+  const changePage = (page: number) => dispatch(setPage(page));
 
   const handleSearch = () => {
     dispatch(getCards({ page, pageSize: 5, title: searchValue }));
@@ -56,12 +74,12 @@ const PageCards = () => {
 
       {isLoading ? (
         <div className="spinner">
-          <span class="loader"></span>
+          <span className="loader"></span>
         </div>
       ) : (
         <div className="pageCards">
           {cardsFromServer &&
-            cardsFromServer.map((data) => {
+            cardsFromServer.map((data: DataCardsType) => {
               return (
                 <MyCard key={data.id} data={data} onOpenEditPopap={hanleOpenEditPopap} />
               );

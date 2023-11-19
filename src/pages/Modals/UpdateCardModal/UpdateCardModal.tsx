@@ -1,15 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateCard } from "app/redux/slices/photoReducer";
 import "./updateCardModal.scss";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import "./updateCardModal.scss";
+import { useAppDispatch } from "app/redux/store";
 
-const UpdateCardModal = ({ active, setActive }) => {
+export type ActiveDataType = {
+  title: string;
+  description: string;
+  url: string;
+  id: number;
+};
+
+export interface UpdateCardModalProps {
+  active: {
+    data: ActiveDataType;
+  };
+  isOpen: boolean;
+  setActive: Function;
+  onCloseEditPopap: Function;
+  title: string;
+  url: string;
+  id: number;
+  handleChangeTitle: Function;
+  handleChangeUrl: Function;
+  onClick: () => void;
+}
+
+const UpdateCardModal: FC<UpdateCardModalProps> = ({ active, setActive }) => {
   const { title, description, url, id } = active.data;
-  const dispach = useDispatch();
+  const dispach = useAppDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispach(
       updateCard({
@@ -30,9 +53,12 @@ const UpdateCardModal = ({ active, setActive }) => {
   const [inputDescription, setInputDescription] = useState(description);
   const [inputUrl, setInputUrl] = useState(url);
 
-  const handleChangeTitle = (e) => setInputTitle(e.target.value);
-  const handleChangeDescription = (e) => setInputDescription(e.target.value);
-  const handleChangeUrl = (e) => setInputUrl(e.target.value);
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) =>
+    setInputTitle(e.target.value);
+  const handleChangeDescription = (e: ChangeEvent<HTMLInputElement>) =>
+    setInputDescription(e.target.value);
+  const handleChangeUrl = (e: ChangeEvent<HTMLInputElement>) =>
+    setInputUrl(e.target.value);
 
   useEffect(() => {
     setInputTitle(title);

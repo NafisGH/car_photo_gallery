@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCards, selectIsLoading } from "app/redux/slices/photoReducer";
-import { MyCard } from "pages/PageCards/ui/Card";
+import { getCards, selectData, selectIsLoading } from "app/redux/slices/photoReducer";
+import { DataCardsType, MyCard } from "pages/PageCards/ui/Card";
 import { Box, Button, Center, Input, Spinner } from "@chakra-ui/react";
 
 import UpdateCardModal from "pages/Modals/UpdateCardModal/UpdateCardModal";
 import Pagination from "components/Pagination/Pagination";
+import { useAppDispatch } from "app/redux/store";
 
 const PageUserProfile = () => {
-  const cardsFromServer = useSelector((state) => state.photos.data);
+  const cardsFromServer = useSelector(selectData);
   const isLoading = useSelector(selectIsLoading);
 
   const [page, setPage] = useState(1);
@@ -16,28 +17,45 @@ const PageUserProfile = () => {
   const [openEditPopap, setOpenEditPopap] = useState(false);
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-  const [id, setId] = useState("");
+  const [id, setId] = useState<any | null>("");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleChangeTitle = (e) => {
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
-  const handleChangeUrl = (e) => {
+  const handleChangeUrl = (e: ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
   };
   const hanleCloseEditPopap = () => {
     setOpenEditPopap(false);
   };
-  const hanleOpenEditPopap = ({ title, url, id }) => {
+  const hanleOpenEditPopap = ({
+    title,
+    url,
+    id,
+  }: {
+    title: string;
+    url: string;
+    id: number;
+  }) => {
     setOpenEditPopap(true);
     setTitle(title);
     setUrl(url);
     setId(id);
   };
 
+  // useEffect(() => {
+  //   dispatch(getCards({}));
+  // }, [dispatch]);
   useEffect(() => {
-    dispatch(getCards({ }));
+    dispatch(
+      getCards({
+        page: 0,
+        pageSize: 0,
+        title: "",
+      })
+    );
   }, [dispatch]);
 
   return (
@@ -100,10 +118,12 @@ const PageUserProfile = () => {
           minHeight={"100vh"}
           pt={"150px"}
         >
-          {cardsFromServer.map((data) => {
-              return <MyCard key={data.id} data={data} onOpenEditPopap={hanleOpenEditPopap}/>;
-            })}
-            <UpdateCardModal
+          {cardsFromServer.map((data: DataCardsType) => {
+            return (
+              <MyCard key={data.id} data={data} onOpenEditPopap={hanleOpenEditPopap} />
+            );
+          })}
+          <UpdateCardModal
             isOpen={openEditPopap}
             onCloseEditPopap={hanleCloseEditPopap}
             title={title}
@@ -114,7 +134,7 @@ const PageUserProfile = () => {
           />
         </Box>
       )}
-      
+
       <Center>
         <Pagination page={page} setPage={setPage} />
       </Center>

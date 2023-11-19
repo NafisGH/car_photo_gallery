@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, MouseEvent, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,13 +10,18 @@ import {
 } from "app/redux/slices/photoReducer";
 import "./createCardModal.scss";
 import "../modals.scss";
+import { useAppDispatch } from "app/redux/store";
 
-const CreateCardModal = ({ active, setActive }) => {
+interface CreateCardModalProps {
+  setActive: Function;
+}
+
+const CreateCardModal: React.FC<CreateCardModalProps> = ({ setActive }) => {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleChangeTitle = (e) => {
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
   const isError = title === "";
@@ -25,10 +30,10 @@ const CreateCardModal = ({ active, setActive }) => {
 
   const isRegExp = regExpUrl.test(url) ? true : false;
 
-  const handleChangeAuthor = (e) => {
+  const handleChangeAuthor = (e: ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
   };
-  const handleChangeUrl = (e) => {
+  const handleChangeUrl = (e: ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
   };
 
@@ -41,16 +46,30 @@ const CreateCardModal = ({ active, setActive }) => {
   const cards = useSelector(selectData); // Массив одной страницы, количество карточек на странице
   const page = useSelector(selectPage); // Активная выбранная страница
   const pageCount = useSelector(selectPageCount); //
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await dispatch(createCard({ ownerId: 2, title, description, url })).unwrap();
 
     if (cards.length > 4) {
-      await dispatch(getCards({ page: pageCount + 1, pageSize: 5 })).unwrap();
+      // await dispatch(getCards({ page: pageCount + 1, pageSize: 5 })).unwrap();
+      await dispatch(
+        getCards({
+          page: pageCount + 1,
+          pageSize: 5,
+          title: "",
+        })
+      ).unwrap();
     } else {
-      await dispatch(getCards({ page, pageSize: 5 })).unwrap();
+      // await dispatch(getCards({ page, pageSize: 5 })).unwrap();
+      await dispatch(
+        getCards({
+          page,
+          pageSize: 5,
+          title: "",
+        })
+      ).unwrap();
     }
 
     setActive(false);

@@ -1,25 +1,25 @@
 import { Box, Center } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { ChangeEvent, MouseEvent, useState } from "react";
 import { Input, Button, Text } from "@chakra-ui/react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { signIn } from "app/redux/slices/userReducer";
+import { useAppDispatch } from "app/redux/store";
 
 const PageSignIn = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handelChangeEmail = (e) => {
+  const handelChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handelChangePassword = (e) => {
+  const handelChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handelSubmit = async (e) => {
+  const handelSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await dispatch(signIn({ password, email })).unwrap();
     navigate("/");
