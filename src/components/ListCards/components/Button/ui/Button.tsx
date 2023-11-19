@@ -1,11 +1,11 @@
-import React from 'react'
-import StyledButton from './StyledButton'
+// import React, { FC } from "react";
+// import StyledButton from "./StyledButton";
 
-export const Button = ({ children, classNameBtn }) => {
+// export interface ButtonProps {
+//   children: React.ReactNode;
+//   classNameBtn: string;
+// }
 
-  return (
-    <StyledButton className={classNameBtn}>
-        { children }
-    </StyledButton>
-  )
-}
+// export const Button: FC<ButtonProps> = ({ children, classNameBtn }) => {
+//   return <StyledButton className={classNameBtn}>{children}</StyledButton>;
+// };

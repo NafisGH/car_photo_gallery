@@ -1,6 +1,6 @@
-import React, { Dispatch, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MyCard } from "./Card";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   getCards,
   selectData,
@@ -14,8 +14,6 @@ import "./pageCards.scss";
 import Modal from "pages/Modals/ui/Modal";
 
 import { DataCardsType } from "./Card";
-import { initialStateType } from "app/redux/slices/photoReducer";
-import { AnyAction } from "@reduxjs/toolkit";
 import { useAppDispatch } from "app/redux/store";
 
 interface DataPageCardsType {

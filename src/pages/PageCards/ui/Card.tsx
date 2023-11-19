@@ -1,7 +1,7 @@
 import React from "react";
 import "./card.scss";
 import { BsHeartFill, BsHeart } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   deleteCard,
   dislikeCard,
@@ -22,7 +22,7 @@ export interface DataCardsType {
   ownerId: number;
   id: number;
   date: number;
-  likes: any;
+  likes?: any;
 }
 interface MyCardProps {
   data: DataCardsType;
@@ -74,9 +74,9 @@ export const MyCard: React.FC<MyCardProps> = ({ data, onOpenEditPopap }) => {
 
   const handleLikeCard = () => {
     if (data.likes && data.likes.includes(email)) {
-      dispatch(dislikeCard({ id: data.id, email }));
+      dispatch(dislikeCard({ id: data.id })); // email
     } else {
-      dispatch(likeCard({ id: data.id, email }));
+      dispatch(likeCard({ id: data.id })); // email
     }
   };
 

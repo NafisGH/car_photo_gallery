@@ -1,35 +1,35 @@
 import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { updateCard } from "app/redux/slices/photoReducer";
 import "./updateCardModal.scss";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import "./updateCardModal.scss";
 import { useAppDispatch } from "app/redux/store";
 
-export type ActiveDataType = {
+interface ActiveDataType {
   title: string;
   description: string;
   url: string;
   id: number;
-};
+}
 
 export interface UpdateCardModalProps {
+  // isOpen: boolean;
+  // onCloseEditPopap: Function;
+  // title: string;
+  // url: string;
+  // id: number;
+  // handleChangeTitle: Function;
+  // handleChangeUrl: Function;
+
   active: {
-    data: ActiveDataType;
+    data: {};
   };
-  isOpen: boolean;
   setActive: Function;
-  onCloseEditPopap: Function;
-  title: string;
-  url: string;
-  id: number;
-  handleChangeTitle: Function;
-  handleChangeUrl: Function;
-  onClick: () => void;
 }
 
 const UpdateCardModal: FC<UpdateCardModalProps> = ({ active, setActive }) => {
-  const { title, description, url, id } = active.data;
+  const { title, description, url, id } = active.data as ActiveDataType;
+
   const dispach = useAppDispatch();
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
