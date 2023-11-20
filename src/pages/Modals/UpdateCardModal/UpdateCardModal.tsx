@@ -13,14 +13,6 @@ interface ActiveDataType {
 }
 
 export interface UpdateCardModalProps {
-  // isOpen: boolean;
-  // onCloseEditPopap: Function;
-  // title: string;
-  // url: string;
-  // id: number;
-  // handleChangeTitle: Function;
-  // handleChangeUrl: Function;
-
   active: {
     data: {};
   };

@@ -38,6 +38,7 @@ export const MyCard: React.FC<MyCardProps> = ({ data, onOpenEditPopap }) => {
     let day = date.getDate();
     let res = "";
     if (day < 10) res = "0" + day;
+    else res += "" + day;
     let month = (date.getMonth() + 1).toString();
     if (month.length === 1) res += ".0" + month;
     else res += "." + month;

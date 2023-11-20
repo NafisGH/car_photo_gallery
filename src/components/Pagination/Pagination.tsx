@@ -11,8 +11,6 @@ interface PaginationProps {
 const Pagination: FC<PaginationProps> = ({ page, setPage }) => {
   const pageCount = useSelector(selectPageCount);
   const isLoading = useSelector(selectIsLoading);
-  console.log("page", page);
-  console.log("pageCount", pageCount);
 
   const handleClickBtnNextPage = () => {
     setPage((page += 1));

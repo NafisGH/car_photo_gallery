@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { clearUserData, setUserData } from "app/redux/slices/userReducer";
 import axios from "axios";
+import { useAppDispatch } from "app/redux/store";
 
 export const useAuth = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [valid, setValid] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [valid, setValid] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,7 +29,7 @@ export const useAuth = () => {
           setValid(false);
           navigate("/sign-in");
           localStorage.removeItem("token");
-          dispatch(clearUserData());
+          dispatch(clearUserData({}));
         })
         .finally(() => {
           setLoading(false);

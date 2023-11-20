@@ -1,6 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   createCard,
   getCards,
