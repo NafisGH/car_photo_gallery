@@ -28,10 +28,7 @@ const Header = () => {
         </button>
 
         <Modal active={modalActive} setActive={setModalActive}>
-          <CreateCardModal
-            active={modalActive}
-            setActive={setModalActive}
-          ></CreateCardModal>
+          <CreateCardModal setActive={setModalActive}></CreateCardModal>
         </Modal>
 
         <span className="email">{email}</span>

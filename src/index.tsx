@@ -6,7 +6,7 @@ import { StoreProvider } from "app/providers/StoreProvider";
 import { ChakraProvider } from "@chakra-ui/react";
 import { NotificationProvider } from "app/providers/notification";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <StoreProvider>
     <ChakraProvider resetCSS={true}>

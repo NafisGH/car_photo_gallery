@@ -1,17 +1,16 @@
-import React, { useEffect, useMemo } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import {
-  selectIsLoading,
-  selectPageCount,
-} from "app/redux/slices/photoReducer";
+import { selectIsLoading, selectPageCount } from "app/redux/slices/photoReducer";
 import StyledPagination from "./StyledPagination";
 import classNames from "classnames";
 
-const Pagination = ({ page, setPage }) => {
+interface PaginationProps {
+  page: number;
+  setPage: Function;
+}
+const Pagination: FC<PaginationProps> = ({ page, setPage }) => {
   const pageCount = useSelector(selectPageCount);
   const isLoading = useSelector(selectIsLoading);
-  console.log("page", page);
-  console.log("pageCount", pageCount);
 
   const handleClickBtnNextPage = () => {
     setPage((page += 1));
@@ -40,7 +39,7 @@ const Pagination = ({ page, setPage }) => {
     }
   }, [page, pageCount, setPage]);
 
-  const handleClickPage = (value) => {
+  const handleClickPage = (value: number) => {
     if (isLoading === true) {
       return;
     }
@@ -48,9 +47,7 @@ const Pagination = ({ page, setPage }) => {
   };
 
   return (
-    <StyledPagination
-      className={pages.length === 1 ? "active_none" : "pagination"}
-    >
+    <StyledPagination className={pages.length === 1 ? "active_none" : "pagination"}>
       {
         <button
           className={classNames("btn-pagination prev", {

@@ -1,7 +1,7 @@
 import { Box, Center, Text, Input, Button, FormControl } from "@chakra-ui/react";
 import { signUp } from "app/redux/slices/userReducer";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "app/redux/store";
+import React, { ChangeEvent, MouseEvent, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const PageSignUp = () => {
@@ -9,20 +9,20 @@ const PageSignUp = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const dispach = useDispatch();
+  const dispach = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleUserName = (e) => {
+  const handleUserName = (e: ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
   };
-  const handlePassword = (e) => {
+  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-  const handleEmail = (e) => {
+  const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispach(signUp({ name: userName, password, email }));
     navigate("/sign-in");
